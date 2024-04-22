@@ -5,7 +5,6 @@ import android.app.Activity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -26,30 +25,22 @@ import android.widget.Toast;
 import com.example.morracineseadvanced.R;
 import com.example.morracineseadvanced.ui.login.LoginViewModel;
 import com.example.morracineseadvanced.ui.login.LoginViewModelFactory;
-import com.example.morracineseadvanced.databinding.ActivityLoginBinding;
+import com.example.morracineseadvanced.databinding.ActivityRegisterBinding;
 
-public class LoginActivity extends AppCompatActivity {
+public class RegisterActivity extends AppCompatActivity {
 
     private LoginViewModel loginViewModel;
-    private ActivityLoginBinding binding;
+    private ActivityRegisterBinding binding;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        binding = ActivityLoginBinding.inflate(getLayoutInflater());
+        binding = ActivityRegisterBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         loginViewModel = new ViewModelProvider(this, new LoginViewModelFactory())
                 .get(LoginViewModel.class);
-
-        final TextView register= (TextView)findViewById(R.id.Register);
-        register.setOnClickListener(new View.OnClickListener(){
-            @Override public void onClick(View v1){
-                Intent launchActivity1 = new Intent(LoginActivity.this, RegisterActivity.class);
-                startActivity(launchActivity1);
-            }
-        });
 
         final EditText usernameEditText = binding.username;
         final EditText passwordEditText = binding.password;
@@ -142,6 +133,4 @@ public class LoginActivity extends AppCompatActivity {
     private void showLoginFailed(@StringRes Integer errorString) {
         Toast.makeText(getApplicationContext(), errorString, Toast.LENGTH_SHORT).show();
     }
-
-
 }
