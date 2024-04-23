@@ -23,6 +23,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.morracineseadvanced.MainActivity;
 import com.example.morracineseadvanced.R;
 import com.example.morracineseadvanced.ui.login.LoginViewModel;
 import com.example.morracineseadvanced.ui.login.LoginViewModelFactory;
@@ -129,6 +130,12 @@ public class LoginActivity extends AppCompatActivity {
                 loadingProgressBar.setVisibility(View.VISIBLE);
                 loginViewModel.login(usernameEditText.getText().toString(),
                         passwordEditText.getText().toString());
+                //If login successful
+                if(!loginViewModel.getLoginResult().getValue().equals("Login Failed!")){
+                    Intent launchActivity1 = new Intent(LoginActivity.this, MainActivity.class);
+                    startActivity(launchActivity1);
+                }
+
             }
         });
     }

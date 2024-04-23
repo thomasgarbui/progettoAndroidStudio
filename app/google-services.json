@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "509890834485",
+    "project_id": "morracineseadvanced",
+    "storage_bucket": "morracineseadvanced.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:509890834485:android:23c578534cca067f68817c",
+        "android_client_info": {
+          "package_name": "com.example.morracineseadvanced"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB_RNfdcOJnd9h9KST4gFBYszdjqzvg75A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

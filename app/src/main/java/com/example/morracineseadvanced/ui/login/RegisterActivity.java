@@ -5,6 +5,7 @@ import android.app.Activity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -41,6 +42,14 @@ public class RegisterActivity extends AppCompatActivity {
 
         loginViewModel = new ViewModelProvider(this, new LoginViewModelFactory())
                 .get(LoginViewModel.class);
+
+        final TextView register= (TextView)findViewById(R.id.GoBack);
+        register.setOnClickListener(new View.OnClickListener(){
+            @Override public void onClick(View v1){
+                Intent launchActivity1 = new Intent(RegisterActivity.this, LoginActivity.class);
+                startActivity(launchActivity1);
+            }
+        });
 
         final EditText usernameEditText = binding.username;
         final EditText passwordEditText = binding.password;
