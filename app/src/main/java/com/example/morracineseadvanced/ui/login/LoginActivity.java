@@ -28,6 +28,7 @@ import com.example.morracineseadvanced.R;
 import com.example.morracineseadvanced.ui.login.LoginViewModel;
 import com.example.morracineseadvanced.ui.login.LoginViewModelFactory;
 import com.example.morracineseadvanced.databinding.ActivityLoginBinding;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -130,9 +131,11 @@ public class LoginActivity extends AppCompatActivity {
                 loadingProgressBar.setVisibility(View.VISIBLE);
                 loginViewModel.login(usernameEditText.getText().toString(),
                         passwordEditText.getText().toString());
-                //If login successful
-                if(!loginViewModel.getLoginResult().getValue().equals("Login Failed!")){
+                if(loginViewModel.getLoginResult().getValue().getSuccess() != null){
                     Intent launchActivity1 = new Intent(LoginActivity.this, MainActivity.class);
+                    startActivity(launchActivity1);
+                }else{
+                    Intent launchActivity1 = new Intent(LoginActivity.this, LoginActivity.class);
                     startActivity(launchActivity1);
                 }
 
