@@ -5,60 +5,73 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@android:color/white"
     tools:context=".MainActivity">
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="216dp"
-        android:layout_marginTop="40dp"
-        android:layout_marginEnd="216dp"
         android:text="MORRA CINESE ADVANCE"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:textSize="24sp"
+        android:textColor="@android:color/black"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="48dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"/>
 
     <Button
-        android:id="@+id/button3"
-        android:layout_width="152dp"
-        android:layout_height="79dp"
-        android:layout_marginStart="216dp"
-        android:layout_marginEnd="216dp"
+        android:id="@+id/button_play"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:text="PLAY"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:textColor="@android:color/white"
+        android:backgroundTint="@color/colorPrimary"
+        app:layout_constraintTop_toBottomOf="@+id/textView"
         app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="301dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginTop="32dp"/>
 
     <Button
-        android:id="@+id/button3"
-        android:layout_width="152dp"
-        android:layout_height="79dp"
-        android:layout_marginStart="216dp"
-        android:layout_marginEnd="216dp"
+        android:id="@+id/button_rules"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:text="RULES"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:textColor="@android:color/white"
+        android:backgroundTint="@color/colorPrimary"
+        app:layout_constraintTop_toBottomOf="@+id/button_play"
         app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="442dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginTop="16dp"/>
 
     <Button
-        android:id="@+id/button4"
+        android:id="@+id/button_friends"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="25dp"
-        android:layout_marginBottom="25dp"
         android:text="FRIENDS"
+        android:textColor="@android:color/white"
+        android:backgroundTint="@color/colorAccent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toStartOf="@+id/button_rank"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="32dp"/>
 
     <Button
-        android:id="@+id/button4"
+        android:id="@+id/button_rank"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="25dp"
-        android:layout_marginBottom="25dp"
         android:text="RANK"
+        android:textColor="@android:color/white"
+        android:backgroundTint="@color/colorAccent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="32dp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
