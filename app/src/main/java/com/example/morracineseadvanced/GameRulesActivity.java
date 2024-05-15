@@ -1,6 +1,9 @@
 package com.example.morracineseadvanced;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,5 +18,15 @@ public class GameRulesActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_gamerules);
+
+        Button btn_play = findViewById(R.id.button_play);
+
+        btn_play.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(GameRulesActivity.this, GameActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 }
