@@ -11,6 +11,7 @@ import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.morracineseadvanced.model.AuthManager;
+import com.example.morracineseadvanced.ui.login.RegisterActivity;
 
 public class LoginActivity extends AppCompatActivity {
 

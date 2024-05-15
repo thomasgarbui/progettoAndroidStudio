@@ -1,4 +1,4 @@
-package com.example.morracineseadvanced;
+package com.example.morracineseadvanced.ui.login;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,6 +10,8 @@ import android.widget.TextView;
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.morracineseadvanced.LoginActivity;
+import com.example.morracineseadvanced.R;
 import com.example.morracineseadvanced.model.AuthManager;
 
 public class RegisterActivity extends AppCompatActivity {
@@ -28,7 +30,7 @@ public class RegisterActivity extends AppCompatActivity {
         final TextView goBack= (TextView)findViewById(R.id.goBack);
         goBack.setOnClickListener(new View.OnClickListener(){
             @Override public void onClick(View v1){
-                Intent launchActivity = new Intent(RegisterActivity.this, LoginActivity.class);
+                Intent launchActivity = new Intent(RegisterActivity.this, com.example.morracineseadvanced.LoginActivity.class);
                 startActivity(launchActivity);
             }
         });
