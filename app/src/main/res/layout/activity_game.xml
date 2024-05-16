@@ -10,35 +10,37 @@
         android:id="@+id/textView_game"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="GAME"
-        android:textSize="24sp"
-        android:textColor="@android:color/black"
+        android:layout_marginTop="32dp"
         android:fontFamily="sans-serif-condensed"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        android:text="CHOOSE YOUR WEAPON"
+        android:textColor="@android:color/black"
+        android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="32dp"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
     <Button
         android:id="@+id/button_chat"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="CHAT"
-        android:textColor="@android:color/white"
-        app:layout_constraintTop_toBottomOf="@+id/textView_game"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginStart="32dp"
         android:layout_marginEnd="32dp"
-        android:layout_marginTop="32dp"/>
+        android:text="CHAT"
+        android:textColor="@android:color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView_game"
+        app:layout_constraintVertical_bias="0.904" />
 
     <Button
         android:id="@+id/button_select"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="36dp"
         android:layout_marginEnd="32dp"
         android:text="SELEZIONA"
         android:textColor="@android:color/white"
@@ -51,17 +53,17 @@
         android:id="@+id/viewPager"
         android:layout_width="311dp"
         android:layout_height="241dp"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="20dp"
         android:backgroundTint="@color/common_google_signin_btn_text_dark_disabled"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button_chat" />
+        app:layout_constraintTop_toBottomOf="@+id/textView_game" />
 
     <TextView
         android:id="@+id/txtSelectedMove"
         android:layout_width="286dp"
         android:layout_height="46dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="32dp"
         android:gravity="center"
         android:textColor="#000000"
         android:textSize="24sp"
