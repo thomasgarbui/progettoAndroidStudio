@@ -34,8 +34,22 @@ public class GameActivity extends AppCompatActivity {
         viewPager = findViewById(R.id.viewPager);
 
         List<Integer> imageList = new ArrayList<>();
-        imageList.add(R.drawable.kiwi);
-        imageList.add(R.drawable.georgefloyd);
+        imageList.add(R.drawable.fire);
+        imageList.add(R.drawable.snake);
+        imageList.add(R.drawable.sponge);
+        imageList.add(R.drawable.air);
+        imageList.add(R.drawable.devil);
+        imageList.add(R.drawable.dragon);
+        imageList.add(R.drawable.gun);
+        imageList.add(R.drawable.human);
+        imageList.add(R.drawable.lightning);
+        imageList.add(R.drawable.paper);
+        imageList.add(R.drawable.rock);
+        imageList.add(R.drawable.water);
+        imageList.add(R.drawable.scissors);
+        imageList.add(R.drawable.tree);
+        imageList.add(R.drawable.wolf);
+
 
         adapter = new ImagePagerAdapter(this, imageList);
         viewPager.setAdapter(adapter);
