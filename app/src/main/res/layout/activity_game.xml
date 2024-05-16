@@ -38,32 +38,37 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="72dp"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="32dp"
         android:text="SELEZIONA"
         android:textColor="@android:color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/viewPager" />
+        app:layout_constraintTop_toBottomOf="@+id/txtSelectedMove" />
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/viewPager"
         android:layout_width="311dp"
         android:layout_height="241dp"
         android:layout_marginTop="28dp"
+        android:backgroundTint="@color/common_google_signin_btn_text_dark_disabled"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/button_chat" />
 
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="271dp"
-        android:layout_height="118dp"
-        android:scaleType="centerCrop"
+    <TextView
+        android:id="@+id/txtSelectedMove"
+        android:layout_width="286dp"
+        android:layout_height="46dp"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:textColor="#000000"
+        android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button_select" />
+        app:layout_constraintTop_toBottomOf="@+id/viewPager" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

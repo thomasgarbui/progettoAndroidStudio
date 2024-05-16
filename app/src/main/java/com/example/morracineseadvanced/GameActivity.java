@@ -1,8 +1,12 @@
 package com.example.morracineseadvanced;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.res.ColorStateList;
 import android.os.Bundle;
 
 import android.os.StrictMode;
+import android.os.Vibrator;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -14,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import androidx.viewpager2.widget.ViewPager2;
+import androidx.core.content.ContextCompat;
 
 public class GameActivity extends AppCompatActivity {
 
@@ -24,6 +29,7 @@ public class GameActivity extends AppCompatActivity {
     private TextView messageTextView;
     private ViewPager2 viewPager; // Usa ViewPager2 invece di ViewPager
     private ImagePagerAdapter adapter;
+    private Interactions interactions;
 
 
     @Override
@@ -31,24 +37,25 @@ public class GameActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
 
+        interactions = new Interactions();
         viewPager = findViewById(R.id.viewPager);
 
         List<Integer> imageList = new ArrayList<>();
-        imageList.add(R.drawable.fire);
-        imageList.add(R.drawable.snake);
-        imageList.add(R.drawable.sponge);
-        imageList.add(R.drawable.air);
-        imageList.add(R.drawable.devil);
-        imageList.add(R.drawable.dragon);
-        imageList.add(R.drawable.gun);
-        imageList.add(R.drawable.human);
-        imageList.add(R.drawable.lightning);
-        imageList.add(R.drawable.paper);
         imageList.add(R.drawable.rock);
-        imageList.add(R.drawable.water);
+        imageList.add(R.drawable.fire);
         imageList.add(R.drawable.scissors);
+        imageList.add(R.drawable.snake);
+        imageList.add(R.drawable.human);
         imageList.add(R.drawable.tree);
         imageList.add(R.drawable.wolf);
+        imageList.add(R.drawable.sponge);
+        imageList.add(R.drawable.paper);
+        imageList.add(R.drawable.air);
+        imageList.add(R.drawable.water);
+        imageList.add(R.drawable.dragon);
+        imageList.add(R.drawable.devil);
+        imageList.add(R.drawable.lightning);
+        imageList.add(R.drawable.gun);
 
 
         adapter = new ImagePagerAdapter(this, imageList);
@@ -60,6 +67,18 @@ public class GameActivity extends AppCompatActivity {
                 int currentPosition = viewPager.getCurrentItem();
                 String message = "Posizione della foto: " + currentPosition;
                 showToast(message);
+
+                // Disabilita lo scorrimento del ViewPager2
+                viewPager.setUserInputEnabled(false);
+
+                // Fai vibrare il dispositivo
+                Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+                if (vibrator != null) {
+                    vibrator.vibrate(200); // 200 millisecondi
+                }
+                buttonSelect.setEnabled(false);
+                TextView txtSelectedMove = findViewById(R.id.txtSelectedMove);
+                txtSelectedMove.setText("You choose " + interactions.moves[currentPosition]);
             }
         });
 //        messageTextView = findViewById(R.id.messageTextView);

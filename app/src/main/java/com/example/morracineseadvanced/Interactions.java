@@ -1,9 +1,8 @@
 package com.example.morracineseadvanced;
 
 public class Interactions {
-    private boolean[][] matrice = {
-
-    };
+    public boolean[][] matrice;
+    public String[] moves;
 
     public Interactions(){
         this.matrice = new boolean[][]{
@@ -22,6 +21,10 @@ public class Interactions {
                 {true, true, true, true, true, false, false, false, true, true, false, false, false, false, false},
                 {true, true, true, true, true, true, false, false, true, false, false, false, false, false, false},
                 {true, true, true, true, true, true, true, false, false, false, false, false, false, false, false}
+        };
+
+        this.moves = new String[]{
+            "rock","fire","scissors","snake","human","tree","wolf","sponge","paper","air","water","dragon","devil","lightning","gun"
         };
     }
 }
