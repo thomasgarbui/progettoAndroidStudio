@@ -13,40 +13,46 @@
         android:text="GAME RULES"
         android:textSize="24sp"
         android:textColor="@android:color/black"
+        android:textStyle="bold"
+        android:fontFamily="sans-serif-condensed"
+        android:letterSpacing="0.05"
+        android:textAllCaps="true"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="32dp"/>
 
+
     <Button
         android:id="@+id/button_play"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="28dp"
+        android:layout_marginEnd="32dp"
         android:text="PLAY"
         android:textColor="@android:color/white"
-        app:layout_constraintTop_toBottomOf="@+id/textView_game_rules"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginStart="32dp"
-        android:layout_marginEnd="32dp"
-        android:layout_marginTop="32dp"/>
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView_game_rules" />
 
-    <EditText
+    <TextView
         android:id="@+id/editText_rules"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_width="342dp"
+        android:layout_height="498dp"
         android:layout_marginStart="20dp"
+        android:layout_marginTop="36dp"
         android:layout_marginEnd="20dp"
         android:gravity="start|top"
         android:inputType="textMultiLine"
-        android:minLines="5"
         android:maxLines="10"
+        android:minLines="5"
         android:textColor="@android:color/black"
         android:textSize="16sp"
-        app:layout_constraintTop_toBottomOf="@+id/button_play"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="32dp"
-        android:layout_marginBottom="32dp"/>
+        app:layout_constraintHorizontal_bias="0.482"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button_play" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
