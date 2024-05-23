@@ -25,7 +25,6 @@ import android.widget.Toast;
 
 import com.example.morracineseadvanced.MainActivity;
 import com.example.morracineseadvanced.R;
-import com.example.morracineseadvanced.RegisterActivity;
 import com.example.morracineseadvanced.ui.login.LoginViewModel;
 import com.example.morracineseadvanced.ui.login.LoginViewModelFactory;
 import com.example.morracineseadvanced.databinding.ActivityLoginBinding;
