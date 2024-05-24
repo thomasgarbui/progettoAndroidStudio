@@ -2,9 +2,9 @@ package com.example.servermorracineseadvanced.service;
 
 import com.example.servermorracineseadvanced.database.DataManager;
 
-public class MatchesService {
+public class FriendsService {
     private DataManager dataManager;
-    public MatchesService(DataManager dataManager){
+    public FriendsService(DataManager dataManager){
         this.dataManager = dataManager;
     }
 }
