@@ -30,6 +30,7 @@ public class RankActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(RankActivity.this, GameActivity.class);
+                startActivity(intent);
             }
         });
     }

@@ -8,19 +8,18 @@ import android.widget.Button;
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 
-public class FriendsActivity extends AppCompatActivity {
+public class RegisterActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_friends);
+        setContentView(R.layout.activity_register);
 
-        Button btn_back = findViewById(R.id.button_backToMain);
-        Button btn_search = findViewById(R.id.button_searchPlayer);
+        Button btn_back = findViewById(R.id.button_backToLogin);
 
         btn_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(FriendsActivity.this, MainActivity.class);
+                Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
                 startActivity(intent);
             }
         });
