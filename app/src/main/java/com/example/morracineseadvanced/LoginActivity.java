@@ -36,7 +36,7 @@ public class LoginActivity extends AppCompatActivity {
         final Button login= (Button)findViewById(R.id.login);
         login.setOnClickListener(new View.OnClickListener(){
             @Override public void onClick(View v1){
-                boolean result = authManager.Login(username.getText().toString(),password.getText().toString());
+                boolean result = authManager.login(username.getText().toString(),password.getText().toString());
                 if(result){
                     Intent launchActivity = new Intent(LoginActivity.this, MainActivity.class);
                     startActivity(launchActivity);

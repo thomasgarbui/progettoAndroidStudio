@@ -39,7 +39,7 @@ public class RegisterActivity extends AppCompatActivity {
         register.setOnClickListener(new View.OnClickListener(){
             @Override public void onClick(View v1){
                 if(password.getText().toString().equals(confirmPassword.getText().toString())){
-                    boolean result = authManager.Register(username.getText().toString(),password.getText().toString());
+                    boolean result = authManager.register(username.getText().toString(),password.getText().toString());
                     if(result){
                         Intent launchActivity = new Intent(RegisterActivity.this, LoginActivity.class);
                         startActivity(launchActivity);
