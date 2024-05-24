@@ -11,20 +11,23 @@ import java.util.Optional;
 
 @Service
 public class UserService {
-    private List<User> userList;
     private DataManager dataManager;
-    public UserService(){
-        dataManager = new DataManager();
-        userList = new ArrayList<>();
-        User s1 = new User("C","Aldo",40);
-        User s2 = new User("A","Giovanni",30);
-        User s3 = new User("B","Giacomo",20);
-        userList.addAll(Arrays.asList(s1,s2,s3));
+    public UserService(DataManager dataManager){
+        this.dataManager = dataManager;
     }
+
+    /*Optional optional = Optional.empty();
+        for(User user: userList){
+            if(id.equals(user.getId())){
+                optional = Optional.of(user);
+                return optional;
+            }
+        }
+        return optional;*/
 
     public Optional<User> getUser(String id){
         Optional optional = Optional.empty();
-        for(User user: userList){
+        for(User user: dataManager.getUser){
             if(id.equals(user.getId())){
                 optional = Optional.of(user);
                 return optional;

@@ -1,10 +1,13 @@
 package com.example.servermorracineseadvanced.database;
+import org.springframework.stereotype.Service;
+
 import java.sql.*;
 import java.util.concurrent.ExecutionException;
-import javax.sql.*;
+
+@Service
 public class DataManager {
 
-    private Connection connection;
+    private static Connection connection;
 
     public DataManager(){
         String url = "jdbc:mysql://localhost:3306/morracineseadvanced";
@@ -17,6 +20,5 @@ public class DataManager {
         }catch(Exception ex){
 
         }
-
     }
 }
