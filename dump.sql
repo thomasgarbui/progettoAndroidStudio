@@ -40,10 +40,10 @@ DELETE FROM `friendrequests`;
 -- Dump della struttura di tabella morracineseadvanced.friends
 DROP TABLE IF EXISTS `friends`;
 CREATE TABLE IF NOT EXISTS `friends` (
-  `userID` varchar(200) NOT NULL DEFAULT '',
-  `friendID` varchar(200) NOT NULL DEFAULT '',
-  PRIMARY KEY (`userID`,`friendID`),
-  KEY `FK_friends_users_2` (`friendID`),
+  `userId` varchar(200) NOT NULL DEFAULT '',
+  `friendId` varchar(200) NOT NULL DEFAULT '',
+  PRIMARY KEY (`userId`,`friendId`) USING BTREE,
+  KEY `FK_friends_users_2` (`friendId`) USING BTREE,
   CONSTRAINT `FK_friends_users` FOREIGN KEY (`userID`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `FK_friends_users_2` FOREIGN KEY (`friendID`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
