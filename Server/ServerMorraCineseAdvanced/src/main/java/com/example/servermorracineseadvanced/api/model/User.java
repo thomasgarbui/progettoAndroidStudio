@@ -1,22 +1,22 @@
 package com.example.servermorracineseadvanced.api.model;
 
 public class User {
-    private Integer id;
-    private String name;
-    private Integer age;
-    public User(Integer id, String name,Integer age){
+    private String id;
+    private String username;
+    private Integer elo;
+    public User(String id, String username, Integer elo){
         this.id = id;
-        this.name = name;
-        this.age = age;
+        this.username = username;
+        this.elo = elo;
     }
 
-    public Integer getId(){
+    public String getId(){
         return id;
     }
-    public String getName(){
-        return name;
+    public String getUsername(){
+        return username;
     }
-    public Integer getAge(){
-        return age;
+    public Integer getElo(){
+        return elo;
     }
 }
