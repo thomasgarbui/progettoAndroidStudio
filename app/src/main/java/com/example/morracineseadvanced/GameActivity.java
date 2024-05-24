@@ -1,6 +1,8 @@
 package com.example.morracineseadvanced;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.os.Bundle;
 
 import android.os.StrictMode;
@@ -16,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import androidx.viewpager2.widget.ViewPager2;
+import androidx.core.content.ContextCompat;
 
 public class GameActivity extends AppCompatActivity {
 
@@ -35,7 +38,7 @@ public class GameActivity extends AppCompatActivity {
         setContentView(R.layout.activity_game);
 
         interactions = new Interactions();
-        viewPager = findViewById(R.id.viewPager_rules);
+        viewPager = findViewById(R.id.viewPager);
 
         List<Integer> imageList = new ArrayList<>();
         imageList.add(R.drawable.rock);
