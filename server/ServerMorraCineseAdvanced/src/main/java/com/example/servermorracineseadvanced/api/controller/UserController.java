@@ -1,8 +1,4 @@
-package com.example.servermorracineseadvanced.api.controller;
-import com.example.servermorracineseadvanced.api.model.User;
-
 import com.example.servermorracineseadvanced.service.UserService;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,12 +22,12 @@ public class UserController {
         }
         return null;
     }
-//    @PostMapping("/newUser")
-//    public boolean newUser(@RequestParam String id,@RequestParam String username){
-////        User user = userService.newUser(id,username);
-////        if(user != null){
-////            return true;
-////        }
-////        return false;
-//    }
+    @PostMapping("/newUser")
+    public boolean newUser(@RequestParam String id,@RequestParam String username){
+        User user = userService.newUser(id,username);
+        if(user != null){
+            return true;
+        }
+        return false;
+    }
 }
