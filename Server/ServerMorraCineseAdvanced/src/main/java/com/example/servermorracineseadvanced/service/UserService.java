@@ -25,14 +25,12 @@ public class UserService {
         }
         return optional;*/
 
-    public Optional<User> getUser(String id){
+    public Optional<User> getUser(String username){
         Optional optional = Optional.empty();
-        for(User user: dataManager.getUser){
-            if(id.equals(user.getId())){
-                optional = Optional.of(user);
+            if(username.isEmpty()){
+                optional = Optional.of(dataManager.getUser(username));
                 return optional;
             }
-        }
         return optional;
     }
     public User newUser(String id,String username){

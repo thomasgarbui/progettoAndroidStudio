@@ -2,24 +2,24 @@ package com.example.servermorracineseadvanced.api.model;
 
 public class FriendRequest {
     private Integer id;
-    private String senderId;
-    private String receiverId;
+    private String senderUsername;
+    private String receiverUsername;
     private String status;
-    public FriendRequest(Integer id, String senderId, String receiverId, String status){
+    public FriendRequest(Integer id, String senderUsername, String receiverUsername, String status){
         this.id = id;
-        this.senderId = senderId;
-        this.receiverId = receiverId;
+        this.senderUsername = senderUsername;
+        this.receiverUsername = receiverUsername;
         this.status = status;
     }
 
     public Integer getId(){
         return id;
     }
-    public String getSenderId(){
-        return senderId;
+    public String getSenderUsername(){
+        return senderUsername;
     }
-    public String getReceiverId(){
-        return receiverId;
+    public String getReceiverUsername(){
+        return receiverUsername;
     }
     public String getStatus(){
         return status;
