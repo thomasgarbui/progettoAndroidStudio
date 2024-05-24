@@ -1,19 +1,19 @@
-package com.example.servermorracineseadvanced.api.model;
+package com.example.demo;
 
-public class Friends {
-    private String userId;
-    private String friendId;
+public class Friend {
+    private String friendOneUsername;
+    private String friendTwoUsername;
 
-    public Friends(String userId, String friendId){
-        this.userId = userId;
-        this.friendId = friendId;
+    public Friend(String friendOneUsername, String friendTwoUsername){
+        this.friendOneUsername = friendOneUsername;
+        this.friendTwoUsername = friendTwoUsername;
     }
 
-    public String getUserId(){
-        return userId;
+    public String getFriendOneUsername(){
+        return friendOneUsername;
     }
 
-    public String getFriendId(){
-        return friendId;
+    public String getFriendTwoUsername(){
+        return friendTwoUsername;
     }
 }

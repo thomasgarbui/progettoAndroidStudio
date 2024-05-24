@@ -1,10 +1,14 @@
-import com.example.servermorracineseadvanced.service.UserService;
+package com.example.demo;
+
+
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -15,19 +19,29 @@ public class UserController {
         this.userService = userService;
     }
     @GetMapping("/getUser")
-    public User getUser(@RequestParam String id){
-        Optional user = userService.getUser(id);
+    public User User(@RequestParam String username){
+        Optional user = userService.getUser(username);
         if(user.isPresent()){
             return (User) user.get();
         }
         return null;
     }
-    @PostMapping("/newUser")
-    public boolean newUser(@RequestParam String id,@RequestParam String username){
-        User user = userService.newUser(id,username);
-        if(user != null){
-            return true;
+    @GetMapping("/getUsers")
+    public List<User> Users(){
+        List<User> user = userService.getUsers();
+        if(!user.isEmpty()){
+            return user;
         }
-        return false;
+        return null;
+    }
+
+    @PostMapping("/login")
+    public boolean login(@RequestParam String username,@RequestParam String password){
+        return userService.login(username,password);
+    }
+
+    @PostMapping("/register")
+    public boolean register(@RequestParam String username,@RequestParam String password){
+        return userService.register(username,password);
     }
 }

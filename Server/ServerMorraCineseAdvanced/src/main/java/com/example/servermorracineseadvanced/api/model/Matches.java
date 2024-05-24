@@ -1,38 +1,36 @@
-package com.example.servermorracineseadvanced.api.model;
+package com.example.demo;
 
-import com.fasterxml.jackson.databind.deser.DataFormatReaders;
-
-public class Matches {
+public class Match {
     private Integer id;
-    private String player1Id;
-    private String player2Id;
-    private String player1Move;
-    private String player2Move;
-    private String winnerId;
-    public Matches(Integer id,String player1Id,String player2Id,String player1Move,String player2Move,String winnerId){
+    private String playerOneUsername;
+    private String playerTwoUsername;
+    private String playerOneMove;
+    private String playerTwoMove;
+    private String winnerUsername;
+    public Match(Integer id, String playerOneUsername, String playerTwoUsername, String playerOneMove, String playerTwoMove, String winnerUsername){
         this.id = id;
-        this.player1Id = player1Id;
-        this.player2Id = player2Id;
-        this.player1Move = player1Move;
-        this.player2Move = player2Move;
-        this.winnerId = winnerId;
+        this.playerOneUsername = playerOneUsername;
+        this.playerTwoUsername = playerTwoUsername;
+        this.playerOneMove = playerOneMove;
+        this.playerTwoMove = playerTwoMove;
+        this.winnerUsername = winnerUsername;
     }
     public Integer getId(){
         return id;
     }
-    public String getPlayer1Move(){
-        return player1Move;
+    public String getPlayerOneMove(){
+        return playerOneMove;
     }
-    public String getPlayer2Move(){
-        return player2Move;
+    public String getPlayerTwoMove(){
+        return playerTwoMove;
     }
-    public String getPlayer1Id(){
-        return player1Id;
+    public String getPlayerOneUsername(){
+        return playerOneUsername;
     }
-    public String getPlayer2Id(){
-        return player2Id;
+    public String getPlayerTwoUsername(){
+        return playerTwoUsername;
     }
-    public String getWinnerId(){
-        return winnerId;
+    public String getWinnerUsername(){
+        return winnerUsername;
     }
 }

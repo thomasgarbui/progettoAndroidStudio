@@ -1,7 +1,5 @@
-package com.example.servermorracineseadvanced.service;
+package com.example.demo;
 
-import com.example.servermorracineseadvanced.api.model.User;
-import com.example.servermorracineseadvanced.database.DataManager;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -15,31 +13,37 @@ public class UserService {
     public UserService(DataManager dataManager){
         this.dataManager = dataManager;
     }
-
-    /*Optional optional = Optional.empty();
-        for(User user: userList){
-            if(id.equals(user.getId())){
-                optional = Optional.of(user);
-                return optional;
-            }
-        }
-        return optional;*/
-
-    public Optional<User> getUser(String id){
+    public Optional<User> getUser(String username){
         Optional optional = Optional.empty();
-        for(User user: dataManager.getUser){
-            if(id.equals(user.getId())){
-                optional = Optional.of(user);
-                return optional;
-            }
+        if(username.isEmpty()){
+            optional = Optional.of(dataManager.getUser(username));
+            return optional;
         }
         return optional;
     }
-    public User newUser(String id,String username){
-        if(id.length() > 0 && username.length() > 0){
-            User user = new User(id,username,10);
-            return user;
+
+    public List<User> getUsers(){
+        List<User> userList = dataManager.getUsers();
+        return userList;
+    }
+    public boolean login(String username,String password){
+        boolean result = false;
+        Optional<User> optional = getUser(username);
+        if(optional.isPresent()){
+            User user = (User) optional.get();
+            if(user.getPassword().equals(password)){
+                result = true;
+            }
         }
-        return null;
+        return result;
+
+    }
+
+    public boolean register(String username,String password){
+        boolean result = false;
+        if(!username.isEmpty() && !password.isEmpty()){
+            result = dataManager.register(username,password);
+        }
+        return result;
     }
 }
