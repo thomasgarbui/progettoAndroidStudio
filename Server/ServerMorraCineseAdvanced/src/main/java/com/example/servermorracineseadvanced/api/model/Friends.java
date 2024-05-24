@@ -1,10 +1,10 @@
-package com.example.servermorracineseadvanced.api.model;
+package com.example.demo;
 
-public class Friends {
+public class Friend {
     private String friendOneUsername;
     private String friendTwoUsername;
 
-    public Friends(String friendOneUsername, String friendTwoUsername){
+    public Friend(String friendOneUsername, String friendTwoUsername){
         this.friendOneUsername = friendOneUsername;
         this.friendTwoUsername = friendTwoUsername;
     }

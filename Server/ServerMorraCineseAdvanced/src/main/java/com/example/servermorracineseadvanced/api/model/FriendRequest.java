@@ -1,4 +1,4 @@
-package com.example.servermorracineseadvanced.api.model;
+package com.example.demo;
 
 public class FriendRequest {
     private Integer id;

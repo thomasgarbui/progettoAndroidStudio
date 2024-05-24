@@ -1,15 +1,13 @@
-package com.example.servermorracineseadvanced.api.model;
+package com.example.demo;
 
-import com.fasterxml.jackson.databind.deser.DataFormatReaders;
-
-public class Matches {
+public class Match {
     private Integer id;
     private String playerOneUsername;
     private String playerTwoUsername;
     private String playerOneMove;
     private String playerTwoMove;
     private String winnerUsername;
-    public Matches(Integer id,String playerOneUsername,String playerTwoUsername,String playerOneMove,String playerTwoMove,String winnerUsername){
+    public Match(Integer id, String playerOneUsername, String playerTwoUsername, String playerOneMove, String playerTwoMove, String winnerUsername){
         this.id = id;
         this.playerOneUsername = playerOneUsername;
         this.playerTwoUsername = playerTwoUsername;
