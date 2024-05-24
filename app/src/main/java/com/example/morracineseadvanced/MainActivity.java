@@ -26,6 +26,9 @@ public class MainActivity extends AppCompatActivity {
 
         Button btn_rules = findViewById(R.id.button_rules);
         Button btn_play = findViewById(R.id.button_play);
+        Button btn_rank = findViewById(R.id.button_rank);
+        Button btn_friends = findViewById(R.id.button_friends);
+
 
         btn_play.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -38,6 +41,22 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, GameRulesActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        btn_rank.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, RankActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        btn_friends.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, FriendsActivity.class);
                 startActivity(intent);
             }
         });
