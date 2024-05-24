@@ -12,7 +12,7 @@ public class DataManager {
     public DataManager(){
         String url = "jdbc:mysql://localhost:3306/morracineseadvanced";
         String username = "root";
-        String password = "password";
+        String password = "";
         try{
             Class.forName("com.mysql.cj.jdbc.Driver");
             connection = DriverManager.getConnection(url,username,password);
