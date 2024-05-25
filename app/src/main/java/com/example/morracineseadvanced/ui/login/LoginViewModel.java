@@ -25,12 +25,17 @@ public class LoginViewModel extends ViewModel {
     }
 
     public void login(String username, String password) {
-        // Async call to the LoginRepository
+        // Async call to the AuthManager
         new Thread(() -> {
-            boolean success = loginRepository.login(username, password);
-            if (success) {
-                loginResult.postValue(new LoginResult(new LoggedInUserView(username)));
-            } else {
+            try {
+                boolean success = loginRepository.login(username, password);
+                if (success) {
+                    loginResult.postValue(new LoginResult(new LoggedInUserView(username)));
+                } else {
+                    loginResult.postValue(new LoginResult(R.string.login_failed));
+                }
+            } catch (Exception ex) {
+                ex.printStackTrace();
                 loginResult.postValue(new LoginResult(R.string.login_failed));
             }
         }).start();

@@ -1,17 +1,14 @@
 package com.example.morracineseadvanced.model;
 
 import java.io.IOException;
-import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class AuthManager {
-
-    private static final MediaType JSON = MediaType.get("application/json; charset=utf-8");
-    private OkHttpClient client;
     private String serverUrl;
+    private OkHttpClient client;
 
     public AuthManager(String serverUrl) {
         this.serverUrl = serverUrl;
@@ -19,35 +16,19 @@ public class AuthManager {
     }
 
     public boolean login(String username, String password) {
-        try {
-            String json = "{\"username\":\"" + username + "\", \"password\":\"" + password + "\"}";
-            String response = post(serverUrl + "/login", json);
-            return "success".equals(response); // Modifica questa condizione in base alla risposta del tuo server
-        } catch (IOException ex) {
-            ex.printStackTrace();
-            return false;
-        }
-    }
-
-    public boolean register(String username, String password) {
-        try {
-            String json = "{\"username\":\"" + username + "\", \"password\":\"" + password + "\"}";
-            String response = post(serverUrl + "/register", json);
-            return "success".equals(response);
-        } catch (IOException ex) {
-            ex.printStackTrace();
-            return false;
-        }
-    }
-
-    private String post(String url, String json) throws IOException {
-        RequestBody body = RequestBody.create(json, JSON);
+        String url = serverUrl + "/verifyCredentials?username=" + username + "&password=" + password;
         Request request = new Request.Builder()
                 .url(url)
-                .post(body)
+                .post(RequestBody.create(null, new byte[0])) // Required for POST request, but with no body content
                 .build();
+
         try (Response response = client.newCall(request).execute()) {
-            return response.body().string();
+            if (response.isSuccessful()) {
+                return Boolean.parseBoolean(response.body().string());
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+        return false;
     }
 }

@@ -38,7 +38,7 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         // Imposta l'URL del server
-        String serverUrl = "http://192.168.146.224:8080";
+        String serverUrl = "http://192.168.210.169:8080";
         AuthManager authManager = new AuthManager(serverUrl);
         LoginRepository loginRepository = new LoginRepository(authManager);
 

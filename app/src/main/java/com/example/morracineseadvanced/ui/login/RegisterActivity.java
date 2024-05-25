@@ -27,31 +27,31 @@ public class RegisterActivity extends AppCompatActivity {
         final EditText password = (EditText)findViewById(R.id.password);
         final EditText confirmPassword = (EditText)findViewById(R.id.confirmPassword);
 
-        final TextView goBack= (TextView)findViewById(R.id.goBack);
-        goBack.setOnClickListener(new View.OnClickListener(){
-            @Override public void onClick(View v1){
-                Intent launchActivity = new Intent(RegisterActivity.this, com.example.morracineseadvanced.LoginActivity.class);
-                startActivity(launchActivity);
-            }
-        });
+//        final TextView goBack= (TextView)findViewById(R.id.goBack);
+//        goBack.setOnClickListener(new View.OnClickListener(){
+//            @Override public void onClick(View v1){
+//                Intent launchActivity = new Intent(RegisterActivity.this, com.example.morracineseadvanced.LoginActivity.class);
+//                startActivity(launchActivity);
+//            }
+//        });
 
-        final Button register= (Button)findViewById(R.id.register);
-        register.setOnClickListener(new View.OnClickListener(){
-            @Override public void onClick(View v1){
-                if(password.getText().toString().equals(confirmPassword.getText().toString())){
-                    boolean result = authManager.register(username.getText().toString(),password.getText().toString());
-                    if(result){
-                        Intent launchActivity = new Intent(RegisterActivity.this, LoginActivity.class);
-                        startActivity(launchActivity);
-                    }else{
-                        //Messaggio di errore da qualche parte
-                    }
-                }else{
-                    //Messaggio di errore
-                }
-
-            }
-        });
+//        final Button register= (Button)findViewById(R.id.register);
+//        register.setOnClickListener(new View.OnClickListener(){
+//            @Override public void onClick(View v1){
+//                if(password.getText().toString().equals(confirmPassword.getText().toString())){
+//                    boolean result = authManager.register(username.getText().toString(),password.getText().toString());
+//                    if(result){
+//                        Intent launchActivity = new Intent(RegisterActivity.this, LoginActivity.class);
+//                        startActivity(launchActivity);
+//                    }else{
+//                        //Messaggio di errore da qualche parte
+//                    }
+//                }else{
+//                    //Messaggio di errore
+//                }
+//
+//            }
+//        });
 
 
     }

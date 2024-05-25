@@ -1,6 +1,5 @@
 package com.example.clientmorracinese;
 
-import com.example.servermorracineseadvanced.database.DataManager;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 

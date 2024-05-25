@@ -18,7 +18,7 @@ public class LoginRepository {
         return authManager.login(username, password);
     }
 
-    public boolean register(String username, String password) {
-        return authManager.register(username, password);
-    }
+//    public boolean register(String username, String password) {
+//        return authManager.register(username, password);
+//    }
 }
