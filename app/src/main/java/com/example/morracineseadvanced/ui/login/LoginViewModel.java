@@ -3,6 +3,7 @@ package com.example.morracineseadvanced.ui.login;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
+
 import com.example.morracineseadvanced.data.LoginRepository;
 import com.example.morracineseadvanced.R;
 
@@ -27,15 +28,10 @@ public class LoginViewModel extends ViewModel {
     public void login(String username, String password) {
         // Async call to the AuthManager
         new Thread(() -> {
-            try {
-                boolean success = loginRepository.login(username, password);
-                if (success) {
-                    loginResult.postValue(new LoginResult(new LoggedInUserView(username)));
-                } else {
-                    loginResult.postValue(new LoginResult(R.string.login_failed));
-                }
-            } catch (Exception ex) {
-                ex.printStackTrace();
+            boolean success = loginRepository.login(username, password);
+            if (success) {
+                loginResult.postValue(new LoginResult(new LoggedInUserView(username)));
+            } else {
                 loginResult.postValue(new LoginResult(R.string.login_failed));
             }
         }).start();

@@ -1,34 +1,87 @@
 package com.example.morracineseadvanced.model;
 
-import java.io.IOException;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 public class AuthManager {
     private String serverUrl;
-    private OkHttpClient client;
 
     public AuthManager(String serverUrl) {
         this.serverUrl = serverUrl;
-        this.client = new OkHttpClient();
     }
 
     public boolean login(String username, String password) {
-        String url = serverUrl + "/verifyCredentials?username=" + username + "&password=" + password;
-        Request request = new Request.Builder()
-                .url(url)
-                .post(RequestBody.create(null, new byte[0])) // Required for POST request, but with no body content
-                .build();
+        try {
+            URL url = new URL(serverUrl + "/login");
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("POST");
+            conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+            conn.setDoOutput(true);
 
-        try (Response response = client.newCall(request).execute()) {
-            if (response.isSuccessful()) {
-                return Boolean.parseBoolean(response.body().string());
+            String postData = "username=" + username + "&password=" + password;
+
+            OutputStream os = conn.getOutputStream();
+            os.write(postData.getBytes());
+            os.flush();
+            os.close();
+
+            int responseCode = conn.getResponseCode();
+            if (responseCode == HttpURLConnection.HTTP_OK) {
+                BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                String inputLine;
+                StringBuilder response = new StringBuilder();
+
+                while ((inputLine = in.readLine()) != null) {
+                    response.append(inputLine);
+                }
+                in.close();
+
+                return Boolean.parseBoolean(response.toString());
+            } else {
+                return false;
             }
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
+            return false;
         }
-        return false;
+    }
+
+    public boolean register(String username, String password) {
+        try {
+            URL url = new URL(serverUrl + "/register");
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("POST");
+            conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+            conn.setDoOutput(true);
+
+            String postData = "username=" + username + "&password=" + password;
+
+            OutputStream os = conn.getOutputStream();
+            os.write(postData.getBytes());
+            os.flush();
+            os.close();
+
+            int responseCode = conn.getResponseCode();
+            if (responseCode == HttpURLConnection.HTTP_OK) {
+                BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                String inputLine;
+                StringBuilder response = new StringBuilder();
+
+                while ((inputLine = in.readLine()) != null) {
+                    response.append(inputLine);
+                }
+                in.close();
+
+                return Boolean.parseBoolean(response.toString());
+            } else {
+                return false;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 }

@@ -37,7 +37,7 @@ public class LoginActivity extends AppCompatActivity {
         binding = ActivityLoginBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        // Imposta l'URL del server
+        // TODO: find a way to set ip address dynamically
         String serverUrl = "http://192.168.210.169:8080";
         AuthManager authManager = new AuthManager(serverUrl);
         LoginRepository loginRepository = new LoginRepository(authManager);
