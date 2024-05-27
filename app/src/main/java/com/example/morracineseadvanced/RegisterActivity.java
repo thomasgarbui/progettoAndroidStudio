@@ -13,8 +13,9 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_register);
-
-        Button btn_back = findViewById(R.id.button_backToLogin);
+        
+        /*
+        Button btn_back = findViewById(R.id.button_backLogin);
 
         btn_back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -23,5 +24,6 @@ public class RegisterActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        */
     }
 }
