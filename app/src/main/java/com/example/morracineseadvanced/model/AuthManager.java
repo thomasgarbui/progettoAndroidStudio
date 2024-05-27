@@ -38,8 +38,9 @@ public class AuthManager {
                     response.append(inputLine);
                 }
                 in.close();
+                boolean test = Boolean.parseBoolean(response.toString());
 
-                return Boolean.parseBoolean(response.toString());
+                return test;
             } else {
                 return false;
             }

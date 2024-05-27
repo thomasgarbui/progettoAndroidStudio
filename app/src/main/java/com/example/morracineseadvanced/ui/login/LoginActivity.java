@@ -19,6 +19,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.morracineseadvanced.GameActivity;
 import com.example.morracineseadvanced.MainActivity;
 import com.example.morracineseadvanced.R;
 import com.example.morracineseadvanced.databinding.ActivityLoginBinding;
@@ -38,7 +39,7 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         // TODO: find a way to set ip address dynamically
-        String serverUrl = "http://192.168.210.169:8080";
+        String serverUrl = "http://192.168.86.192:8080";
         AuthManager authManager = new AuthManager(serverUrl);
         LoginRepository loginRepository = new LoginRepository(authManager);
 
@@ -130,8 +131,16 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 loadingProgressBar.setVisibility(View.VISIBLE);
-                loginViewModel.login(usernameEditText.getText().toString(),
-                        passwordEditText.getText().toString());
+                //loginViewModel.login(usernameEditText.getText().toString(),
+                //        passwordEditText.getText().toString());
+                String username = usernameEditText.getText().toString();
+                String password = passwordEditText.getText().toString();
+                boolean test = authManager.login(username,password);
+                if(test){
+                    Intent launchActivity = new Intent(LoginActivity.this, GameActivity.class);
+                    startActivity(launchActivity);
+                }
+
             }
         });
     }
