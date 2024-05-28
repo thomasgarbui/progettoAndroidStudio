@@ -48,4 +48,12 @@ public class MatchesService {
         }
         return result;
     }
+
+    public Match getMatch(Integer id){
+        Match match = null;
+        if(id > 0){
+            match = dataManager.getMatch(id);
+        }
+        return match;
+    }
 }

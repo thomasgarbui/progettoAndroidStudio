@@ -1,20 +1,15 @@
 package com.example.demo;
 
 public class FriendRequest {
-    private Integer id;
     private String senderUsername;
     private String receiverUsername;
     private String status;
-    public FriendRequest(Integer id, String senderUsername, String receiverUsername, String status){
-        this.id = id;
+    public FriendRequest( String senderUsername, String receiverUsername, String status){
         this.senderUsername = senderUsername;
         this.receiverUsername = receiverUsername;
         this.status = status;
     }
 
-    public Integer getId(){
-        return id;
-    }
     public String getSenderUsername(){
         return senderUsername;
     }

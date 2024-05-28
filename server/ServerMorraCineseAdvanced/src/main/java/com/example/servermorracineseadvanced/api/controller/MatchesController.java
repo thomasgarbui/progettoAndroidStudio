@@ -35,5 +35,18 @@ public class MatchesController {
         }
         return null;
     }
+    @DeleteMapping("/deleteMatch")
+    public boolean deleteMatch(@RequestParam Integer id){
+        return matchesService.deleteMatch(id);
+    }
+
+    @GetMapping("/getMatch")
+    public Match getMatch(@RequestParam Integer id){
+        Match match = matchesService.getMatch(id);
+        if(match != null){
+            return match;
+        }
+        return null;
+    }
 
 }

@@ -13,13 +13,12 @@ public class UserService {
     public UserService(DataManager dataManager){
         this.dataManager = dataManager;
     }
-    public Optional<User> getUser(String username){
-        Optional optional = Optional.empty();
-        if(username.isEmpty()){
-            optional = Optional.of(dataManager.getUser(username));
-            return optional;
+    public User getUser(String username){
+        User user = null;
+        if(!username.isEmpty()){
+            user = dataManager.getUser(username);
         }
-        return optional;
+        return user;
     }
 
     public List<User> getUsers(){
@@ -28,9 +27,8 @@ public class UserService {
     }
     public boolean login(String username,String password){
         boolean result = false;
-        Optional<User> optional = getUser(username);
-        if(optional.isPresent()){
-            User user = (User) optional.get();
+        User user = getUser(username);
+        if(user != null){
             if(user.getPassword().equals(password)){
                 result = true;
             }

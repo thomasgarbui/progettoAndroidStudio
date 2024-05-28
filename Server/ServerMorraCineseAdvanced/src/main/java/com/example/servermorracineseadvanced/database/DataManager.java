@@ -5,15 +5,16 @@ import org.springframework.stereotype.Service;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class DataManager {
 
     private static Connection connection;
+    private GameManager gameManager;
 
     public DataManager(){
-        String url = "jdbc:mysql://localhost:3306/morracineseadvanced";
+        gameManager = new GameManager();
+        String url = "jdbc:mysql://127.0.0.1:3306/morracineseadvanced";
         String username = "root";
         String password = "";
         try{
@@ -24,21 +25,22 @@ public class DataManager {
         }
     }
 
-    public Optional<User> getUser(String username){
-        Optional optional = Optional.empty();
+    public User getUser(String username){
+        User user = null;
         try{
             String getQuery = "SELECT * FROM users WHERE username = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(getQuery);
             preparedStatement.setString(1,username);
             ResultSet resultSet = preparedStatement.executeQuery();
 
-            while(resultSet.first()){
-                optional = Optional.of(new User(resultSet.getString("username"),resultSet.getString("password"),resultSet.getInt("elo")));
+            while(resultSet.next()){
+                user = new User(resultSet.getString("username"),resultSet.getString("password"),resultSet.getInt("elo"));
             }
         }catch(Exception ex) {
+            ex.printStackTrace();
 
         }
-        return optional;
+        return user;
     }
 
     public List<User> getUsers(){
@@ -62,7 +64,7 @@ public class DataManager {
             PreparedStatement preparedStatement = connection.prepareStatement(insertQuery);
             preparedStatement.setString(1, username);
             preparedStatement.setString(2, password);
-            preparedStatement.setInt(3, 10);
+            preparedStatement.setInt(3, 1500);
             int rows = preparedStatement.executeUpdate();
             if (rows > 0) {
                 result = true;
@@ -93,13 +95,12 @@ public class DataManager {
     public List<FriendRequest> getRequests(String senderUsername){
         List<FriendRequest> friendRequestList = new ArrayList<>();
         try{
-            String getQuery = "SELECT * FROM friendrequest WHERE senderUsername = ? AND state = ?";
+            String getQuery = "SELECT * FROM friendRequest WHERE senderUsername = ? AND state = 'pending'";
             PreparedStatement preparedStatement = connection.prepareStatement(getQuery);
             preparedStatement.setString(1,senderUsername);
-            preparedStatement.setString(1,"pending");
             ResultSet resultSet = preparedStatement.executeQuery();
             while(resultSet.next()){
-                friendRequestList.add(new FriendRequest(resultSet.getInt("id"),resultSet.getString("senderUsername"),resultSet.getString("receiverUsername"),resultSet.getString("status")));
+                friendRequestList.add(new FriendRequest(resultSet.getString("senderUsername"),resultSet.getString("receiverUsername"),resultSet.getString("status")));
             }
         }catch(Exception ex) {
 
@@ -107,16 +108,16 @@ public class DataManager {
         return friendRequestList;
     }
 
-    public List<Friend> getFriends(String username){
-        List<Friend> friendList = new ArrayList<>();
+    public List<FriendRequest> getFriends(String username){
+        List<FriendRequest> friendList = new ArrayList<>();
         try{
-            String getQuery = "SELECT * FROM friends WHERE friendOneUsername = ? OR friendTwoUsername = ?";
+            String getQuery = "SELECT * FROM friendsRequest WHERE senderUsername = ? OR receiverUsername = ? AND state = 'accepted'";
             PreparedStatement preparedStatement = connection.prepareStatement(getQuery);
             preparedStatement.setString(1,username);
             preparedStatement.setString(2,username);
             ResultSet resultSet = preparedStatement.executeQuery();
             while(resultSet.next()){
-                friendList.add(new Friend(resultSet.getString("friendOneUsername"),resultSet.getString("friendTwoUsername")));
+                friendList.add(new FriendRequest(resultSet.getString("senderUsername"),resultSet.getString("ReceiverUsername"),resultSet.getString("status")));
             }
         }catch(Exception ex) {
 
@@ -145,7 +146,7 @@ public class DataManager {
     public boolean modifyElo(String username,Integer value){
         boolean result = false;
         try{
-            String updateQuery = "UPDATE user SET elo = ? WHERE username = ?";
+            String updateQuery = "UPDATE user SET elo = (elo+(?)) WHERE username = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(updateQuery);
             preparedStatement.setInt(1,value);
             preparedStatement.setString(2,username);
@@ -177,19 +178,70 @@ public class DataManager {
     public boolean selectMove(String playerUsername,String move,String playerNumber){
         boolean result = false;
         try{
-            String updateQuery = "UPDATE matches SET ? = ? WHERE username = ?";
-            PreparedStatement preparedStatement = connection.prepareStatement(updateQuery);
-            preparedStatement.setString(1,"player"+playerNumber+"Move");
-            preparedStatement.setString(2,move);
-            preparedStatement.setString(3,playerUsername);
-            int rows = preparedStatement.executeUpdate();
-            if(rows > 0){
-                result = true;
+            if((playerNumber.equals("One")|| playerNumber.equals("Two")) && gameManager.isMoveValid(move)) {
+                String updateQuery = "UPDATE matches SET player"+playerNumber+"Move = ? WHERE player"+playerNumber+"Username = ? AND winnerUsername IS NULL";
+                PreparedStatement preparedStatement = connection.prepareStatement(updateQuery);
+                preparedStatement.setString(1,move);
+                preparedStatement.setString(2,playerUsername);
+                int rows = preparedStatement.executeUpdate();
+                if(rows > 0){
+                    result = true;
+                    Match match = getLatestMatch(playerUsername);
+                    if(match != null && (match.getPlayerOneMove() != null && match.getPlayerTwoMove() != null)){
+                        Integer winner = gameManager.whoWon(match);
+                        if(winner < 0){
+                            setWinner("PAREGGIO","PAREGGIO",match.getId());
+                        }else{
+                            String winnerUsername;
+                            String loserUsername;
+                            Integer id = match.getId();
+                            if(winner == 1){
+                                winnerUsername = match.getPlayerOneUsername();
+                                loserUsername = match.getPlayerTwoUsername();
+                            }else{
+                                winnerUsername = match.getPlayerTwoUsername();
+                                loserUsername = match.getPlayerOneUsername();
+                            }
+                            setWinner(winnerUsername,loserUsername,id);
+                        }
+                    }
+                }
             }
         }catch (Exception ex){
 
         }
         return result;
+    }
+    public Match getLatestMatch(String playerUsername){
+        Match match = null;
+        try{
+            String getQuery = "SELECT * From matches WHERE playerOneUsername = ? OR playerTwoUsername = ? AND winnerUsername IS NULL";
+            PreparedStatement preparedStatement = connection.prepareStatement(getQuery);
+            preparedStatement.setString(1,playerUsername);
+            preparedStatement.setString(2,playerUsername);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while(resultSet.next()){
+                match = new Match(resultSet.getInt("id"),resultSet.getString("playerOneUsername"),resultSet.getString("playerTwoUsername"),resultSet.getString("playerOneMove"),resultSet.getString("playerTwoMove"),resultSet.getString("winnerUsername"));
+            }
+        }catch (Exception ex){
+
+        }
+        return match;
+    }
+    public Match getMatch(Integer id){
+        Match match = null;
+        try{
+            String getQuery = "SELECT * FROM matches WHERE id = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(getQuery);
+            preparedStatement.setInt(1,id);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while(resultSet.next()){
+                match = new Match(resultSet.getInt("id"),resultSet.getString("playerOneUsername"),resultSet.getString("playerTwoUsername"),resultSet.getString("playerOneMove"),resultSet.getString("playerTwoMove"),resultSet.getString("winnerUsername"));
+            }
+        }catch(Exception ex){
+
+        }
+        return match;
     }
 
     public boolean joinMatch(String playerUsername,Integer id){
@@ -239,7 +291,7 @@ public class DataManager {
         }
         return result;
     }
-    public boolean setWinner(String winnerUsername,Integer id){
+    public boolean setWinner(String winnerUsername,String loserUsername,Integer id){
         boolean result = false;
         try{
             String updateQuery = "UPDATE matches SET winnerUsername = ? WHERE id = ?";
@@ -249,6 +301,9 @@ public class DataManager {
             int rows = preparedStatement.executeUpdate();
             if(rows > 0){
                 result = true;
+                Integer value = (getUser(winnerUsername).getElo()+getUser(loserUsername).getElo())/20;
+                modifyElo(winnerUsername,value);
+                modifyElo(loserUsername,value);
             }
         }catch (Exception ex){
 

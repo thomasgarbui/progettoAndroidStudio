@@ -26,8 +26,8 @@ public class FriendsService {
         }
         return friendRequestList;
     }
-    public List<Friend> getFriends(String username){
-        List<Friend> friendList = new ArrayList<>();
+    public List<FriendRequest> getFriends(String username){
+        List<FriendRequest> friendList = new ArrayList<>();
         if(!username.isEmpty()){
             friendList = dataManager.getFriends(username);
         }

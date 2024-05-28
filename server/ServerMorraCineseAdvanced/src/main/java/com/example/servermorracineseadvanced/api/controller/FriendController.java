@@ -28,8 +28,8 @@ public class FriendController {
         return null;
     }
     @GetMapping("/getFriends")
-    public List<Friend> getFriends(@RequestParam String username){
-        List<Friend> friendList = new ArrayList<>();
+    public List<FriendRequest> getFriends(@RequestParam String username){
+        List<FriendRequest> friendList = new ArrayList<>();
         friendList = friendsService.getFriends(username);
         if(!friendList.isEmpty()){
             return friendList;

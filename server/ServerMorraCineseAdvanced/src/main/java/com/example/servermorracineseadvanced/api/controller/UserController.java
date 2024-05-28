@@ -20,9 +20,9 @@ public class UserController {
     }
     @GetMapping("/getUser")
     public User User(@RequestParam String username){
-        Optional user = userService.getUser(username);
-        if(user.isPresent()){
-            return (User) user.get();
+        User user = userService.getUser(username);
+        if(user != null){
+            return user;
         }
         return null;
     }

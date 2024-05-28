@@ -23,12 +23,10 @@ USE `morracineseadvanced`;
 -- Dump della struttura di tabella morracineseadvanced.friendrequests
 DROP TABLE IF EXISTS `friendrequests`;
 CREATE TABLE IF NOT EXISTS `friendrequests` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `senderUsername` varchar(200) DEFAULT NULL,
-  `receiverUsername` varchar(200) DEFAULT NULL,
-  `status` enum('pending','accepted','rejected') DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `FK_friendrequests_users` (`senderUsername`),
+  `senderUsername` varchar(200) NOT NULL,
+  `receiverUsername` varchar(200) NOT NULL,
+  `status` enum('pending','accepted','rejected') DEFAULT 'pending',
+  PRIMARY KEY (`senderUsername`,`receiverUsername`) USING BTREE,
   KEY `FK_friendrequests_users_2` (`receiverUsername`),
   CONSTRAINT `FK_friendrequests_users` FOREIGN KEY (`senderUsername`) REFERENCES `users` (`username`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `FK_friendrequests_users_2` FOREIGN KEY (`receiverUsername`) REFERENCES `users` (`username`) ON DELETE NO ACTION ON UPDATE NO ACTION
@@ -36,20 +34,6 @@ CREATE TABLE IF NOT EXISTS `friendrequests` (
 
 -- Dump dei dati della tabella morracineseadvanced.friendrequests: ~0 rows (circa)
 DELETE FROM `friendrequests`;
-
--- Dump della struttura di tabella morracineseadvanced.friends
-DROP TABLE IF EXISTS `friends`;
-CREATE TABLE IF NOT EXISTS `friends` (
-  `friendOneUsername` varchar(200) NOT NULL DEFAULT '',
-  `friendTwoUsername` varchar(200) NOT NULL DEFAULT '',
-  PRIMARY KEY (`friendOneUsername`,`friendTwoUsername`) USING BTREE,
-  KEY `FK_friends_users_2` (`friendTwoUsername`,`friendOneUsername`) USING BTREE,
-  CONSTRAINT `FK_friends_users` FOREIGN KEY (`friendOneUsername`) REFERENCES `users` (`username`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `FK_friends_users_2` FOREIGN KEY (`friendTwoUsername`) REFERENCES `users` (`username`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- Dump dei dati della tabella morracineseadvanced.friends: ~0 rows (circa)
-DELETE FROM `friends`;
 
 -- Dump della struttura di tabella morracineseadvanced.matches
 DROP TABLE IF EXISTS `matches`;
@@ -67,22 +51,28 @@ CREATE TABLE IF NOT EXISTS `matches` (
   CONSTRAINT `FK_matches_users` FOREIGN KEY (`playerOneUsername`) REFERENCES `users` (`username`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `FK_matches_users_2` FOREIGN KEY (`playerTwoUsername`) REFERENCES `users` (`username`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `FK_matches_users_3` FOREIGN KEY (`winnerUsername`) REFERENCES `users` (`username`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Dump dei dati della tabella morracineseadvanced.matches: ~0 rows (circa)
+-- Dump dei dati della tabella morracineseadvanced.matches: ~1 rows (circa)
 DELETE FROM `matches`;
+INSERT INTO `matches` (`id`, `playerOneUsername`, `playerTwoUsername`, `playerOneMove`, `playerTwoMove`, `winnerUsername`) VALUES
+	(1, 'Aldo Baglio', 'Giacomo', 'dragon', 'tree', 'Aldo Baglio');
 
 -- Dump della struttura di tabella morracineseadvanced.users
 DROP TABLE IF EXISTS `users`;
 CREATE TABLE IF NOT EXISTS `users` (
   `username` varchar(50) NOT NULL,
   `elo` int(11) DEFAULT NULL,
-  `password` int(11) DEFAULT NULL,
+  `password` varchar(200) DEFAULT NULL,
   PRIMARY KEY (`username`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Dump dei dati della tabella morracineseadvanced.users: ~0 rows (circa)
+-- Dump dei dati della tabella morracineseadvanced.users: ~3 rows (circa)
 DELETE FROM `users`;
+INSERT INTO `users` (`username`, `elo`, `password`) VALUES
+	('Aldo Baglio', 10, 'cadrega'),
+	('Giacomo', 10, 'blabla'),
+	('PAREGGIO', 0, NULL);
 
 /*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
