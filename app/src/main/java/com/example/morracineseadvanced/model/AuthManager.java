@@ -1,5 +1,7 @@
 package com.example.morracineseadvanced.model;
 
+import android.util.Log;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
@@ -38,8 +40,8 @@ public class AuthManager {
                     response.append(inputLine);
                 }
                 in.close();
-                boolean test = Boolean.parseBoolean(response.toString());
-
+                String responseString = response.toString();
+                boolean test = Boolean.parseBoolean(responseString);
                 return test;
             } else {
                 return false;

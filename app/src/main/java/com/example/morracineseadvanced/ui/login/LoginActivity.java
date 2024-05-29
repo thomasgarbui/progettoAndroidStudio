@@ -18,6 +18,7 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+import com.example.morracineseadvanced.IpAddress;
 
 import com.example.morracineseadvanced.GameActivity;
 import com.example.morracineseadvanced.MainActivity;
@@ -38,8 +39,9 @@ public class LoginActivity extends AppCompatActivity {
         binding = ActivityLoginBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        IpAddress ip = new IpAddress();
         // TODO: find a way to set ip address dynamically
-        String serverUrl = "http://192.168.86.192:8080";
+        String serverUrl = "http://"+ ip.ipAddress +":8080";
         AuthManager authManager = new AuthManager(serverUrl);
         LoginRepository loginRepository = new LoginRepository(authManager);
 
@@ -133,13 +135,8 @@ public class LoginActivity extends AppCompatActivity {
                 loadingProgressBar.setVisibility(View.VISIBLE);
                 //loginViewModel.login(usernameEditText.getText().toString(),
                 //        passwordEditText.getText().toString());
-                String username = usernameEditText.getText().toString();
-                String password = passwordEditText.getText().toString();
-                boolean test = authManager.login(username,password);
-                if(test){
-                    Intent launchActivity = new Intent(LoginActivity.this, GameActivity.class);
-                    startActivity(launchActivity);
-                }
+                loginViewModel.login(usernameEditText.getText().toString(),
+                        passwordEditText.getText().toString());
 
             }
         });
@@ -149,6 +146,10 @@ public class LoginActivity extends AppCompatActivity {
         String welcome = getString(R.string.welcome) + model.getDisplayName();
         // TODO : initiate successful logged in experience
         Toast.makeText(getApplicationContext(), welcome, Toast.LENGTH_LONG).show();
+        // Start MainActivity
+        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+        startActivity(intent);
+        finish(); // terminate LoginActivity
     }
 
     private void showLoginFailed(@StringRes Integer errorString) {

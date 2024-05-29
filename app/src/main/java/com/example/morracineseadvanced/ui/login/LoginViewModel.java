@@ -25,6 +25,7 @@ public class LoginViewModel extends ViewModel {
         return loginResult;
     }
 
+
     public void login(String username, String password) {
         // Async call to the AuthManager
         new Thread(() -> {
