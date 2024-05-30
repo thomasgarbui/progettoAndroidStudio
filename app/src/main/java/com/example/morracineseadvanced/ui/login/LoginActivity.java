@@ -40,7 +40,6 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         IpAddress ip = new IpAddress();
-        // TODO: find a way to set ip address dynamically
         String serverUrl = "http://"+ ip.ipAddress +":8080";
         AuthManager authManager = new AuthManager(serverUrl);
         LoginRepository loginRepository = new LoginRepository(authManager);
@@ -144,9 +143,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private void updateUiWithUser(LoggedInUserView model) {
         String welcome = getString(R.string.welcome) + model.getDisplayName();
-        // TODO : initiate successful logged in experience
         Toast.makeText(getApplicationContext(), welcome, Toast.LENGTH_LONG).show();
-        // Start MainActivity
         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
         startActivity(intent);
         finish(); // terminate LoginActivity

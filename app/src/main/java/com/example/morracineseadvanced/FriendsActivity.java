@@ -8,14 +8,12 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
-
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import org.json.JSONArray;
 import org.json.JSONObject;
-
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
@@ -24,11 +22,12 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
 import com.example.morracineseadvanced.data.model.UserModel;
 
 public class FriendsActivity extends AppCompatActivity {
     private static final String TAG = "FriendsActivity";
+    private RecyclerView recyclerView;
+    private UserAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,8 +37,10 @@ public class FriendsActivity extends AppCompatActivity {
 
         Button btn_back = findViewById(R.id.button_backToMain);
         Button btn_search = findViewById(R.id.button_searchPlayer);
-        TextView txtFriendsResult = findViewById(R.id.textView_friends);
         EditText txtSearchFriend = findViewById(R.id.editTextText_playerName);
+        recyclerView = findViewById(R.id.recyclerView_friends);
+
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         btn_back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -57,12 +58,16 @@ public class FriendsActivity extends AppCompatActivity {
                     @Override
                     public void onUsersFetched(List<UserModel> results) {
                         if (!results.isEmpty()) {
-                            txtFriendsResult.setText("");
-                            for (UserModel user : results) {
-                                txtFriendsResult.append(user.getUsername() + "  elo: " + user.getElo() + "\n");
-                            }
+                            adapter = new UserAdapter(FriendsActivity.this, results, new UserAdapter.OnUserClickListener() {
+                                @Override
+                                public void onSendRequestClick(UserModel user) {
+                                    // Handle send request click
+                                    Log.d(TAG, "Send request to: " + user.getUsername());
+                                }
+                            });
+                            recyclerView.setAdapter(adapter);
                         } else {
-                            txtFriendsResult.setText("No users found");
+                            Log.d(TAG, "No users found");
                         }
                     }
                 });
@@ -78,7 +83,7 @@ public class FriendsActivity extends AppCompatActivity {
                 try {
                     IpAddress ip = new IpAddress();
                     String encodedUsername = URLEncoder.encode(params[0], "UTF-8");
-                    URL url = new URL("http://"+ip.ipAddress + ":8080/getUsers?username=" + encodedUsername);
+                    URL url = new URL("http://" + ip.ipAddress + ":8080/getUsers?username=" + encodedUsername);
                     Log.d(TAG, "Request URL: " + url);
 
                     HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -98,7 +103,6 @@ public class FriendsActivity extends AppCompatActivity {
                         in.close();
                         Log.d(TAG, "Response: " + response.toString());
 
-                        // Parse JSON response and convert it to a list of users
                         JSONArray jsonArray = new JSONArray(response.toString());
                         List<UserModel> userList = new ArrayList<>();
                         for (int i = 0; i < jsonArray.length(); i++) {
@@ -107,17 +111,16 @@ public class FriendsActivity extends AppCompatActivity {
                             String elo = jsonObject.getString("elo");
                             String password = jsonObject.getString("password");
 
-                            // Create User object and add it to the list
-                            UserModel user = new UserModel(userName,password,elo);
+                            UserModel user = new UserModel(userName, password, elo);
                             userList.add(user);
                         }
                         return userList;
                     } else {
-                        return Collections.emptyList(); // Empty list if response code is not HTTP_OK
+                        return Collections.emptyList();
                     }
                 } catch (Exception e) {
                     Log.e(TAG, "Exception: ", e);
-                    return Collections.emptyList(); // Empty list in case of exception
+                    return Collections.emptyList();
                 }
             }
 
