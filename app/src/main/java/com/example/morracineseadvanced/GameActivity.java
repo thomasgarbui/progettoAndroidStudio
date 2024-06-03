@@ -27,6 +27,7 @@ public class GameActivity extends AppCompatActivity {
     private ViewPager2 viewPager; // Usa ViewPager2 invece di ViewPager
     private ImagePagerAdapter adapter;
     private Interactions interactions;
+    private TextView opponentTextView;
 
 
     @Override

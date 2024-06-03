@@ -28,29 +28,22 @@
             android:textSize="24sp" />
     </com.google.android.material.appbar.AppBarLayout>
 
-    <Button
-        android:id="@+id/button_chat"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="175dp"
-        android:layout_marginEnd="32dp"
-        android:layout_marginBottom="16dp"
-        android:text="CHAT"
-        android:textColor="@android:color/white"
-        app:layout_constraintBottom_toBottomOf="parent"
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/viewPager_rules"
+        android:layout_width="311dp"
+        android:layout_height="241dp"
+        android:layout_marginTop="164dp"
+        android:backgroundTint="@color/common_google_signin_btn_text_dark_disabled"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button_select"
-        app:layout_constraintVertical_bias="0.904" />
+        app:layout_constraintTop_toBottomOf="@+id/appBarLayout2" />
 
     <Button
         android:id="@+id/button_select"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="36dp"
+        android:layout_marginTop="40dp"
         android:layout_marginEnd="32dp"
         android:text="SELEZIONA"
         android:textColor="@android:color/white"
@@ -59,21 +52,11 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtSelectedMove" />
 
-    <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/viewPager_rules"
-        android:layout_width="311dp"
-        android:layout_height="241dp"
-        android:layout_marginTop="20dp"
-        android:backgroundTint="@color/common_google_signin_btn_text_dark_disabled"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/appBarLayout2" />
-
     <TextView
         android:id="@+id/txtSelectedMove"
         android:layout_width="286dp"
         android:layout_height="46dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="28dp"
         android:gravity="center"
         android:textColor="#000000"
         android:textSize="24sp"
@@ -81,5 +64,19 @@
         app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/viewPager_rules" />
+
+    <TextView
+        android:id="@+id/textView_opponentName"
+        android:layout_width="260dp"
+        android:layout_height="44dp"
+        android:layout_marginTop="60dp"
+        android:layout_marginBottom="60dp"
+        android:text="Opponent name"
+        android:textAlignment="center"
+        android:textSize="25sp"
+        app:layout_constraintBottom_toTopOf="@+id/viewPager_rules"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/appBarLayout2" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
