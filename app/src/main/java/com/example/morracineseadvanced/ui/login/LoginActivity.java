@@ -2,12 +2,15 @@ package com.example.morracineseadvanced.ui.login;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+
+import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
@@ -136,6 +139,10 @@ public class LoginActivity extends AppCompatActivity {
                 //        passwordEditText.getText().toString());
                 loginViewModel.login(usernameEditText.getText().toString(),
                         passwordEditText.getText().toString());
+                SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(com.example.morracineseadvanced.ui.login.LoginActivity.this);
+                SharedPreferences.Editor editor = preferences.edit();
+                editor.putString("userId", usernameEditText.getText().toString());
+                editor.apply();
 
             }
         });

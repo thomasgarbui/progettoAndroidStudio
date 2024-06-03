@@ -2,7 +2,9 @@ package com.example.morracineseadvanced;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,11 +19,10 @@ import com.example.morracineseadvanced.data.model.UserModel;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.List;
-import com.example.morracineseadvanced.IpAddress;
 
 public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder> {
 
-    private List<UserModel> userList;
+    private List<UserModel> users;
     private Context context;
     private OnUserClickListener listener;
 
@@ -29,9 +30,9 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
         void onSendRequestClick(UserModel user);
     }
 
-    public UserAdapter(Context context, List<UserModel> userList, OnUserClickListener listener) {
+    public UserAdapter(Context context, List<UserModel> users, OnUserClickListener listener) {
         this.context = context;
-        this.userList = userList;
+        this.users = users;
         this.listener = listener;
     }
 
@@ -44,43 +45,16 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull UserViewHolder holder, int position) {
-        IpAddress ip = new IpAddress();
-        UserModel user = userList.get(position);
+        UserModel user = users.get(position);
         holder.username.setText(user.getUsername());
         holder.elo.setText("Elo: " + user.getElo());
         holder.sendRequestButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new AsyncTask<Void, Void, Void>() {
-                    @SuppressLint("StaticFieldLeak")
-                    @Override
-                    protected Void doInBackground(Void... voids) {
-                        try {
-                            String apiUrl = "http://"+ip.ipAddress+":8080/newRequest";
-                            String senderUsername = user.getUsername();
-                            String receiverUsername = user.getUsername();
-
-                            String params = "senderUsername=" + senderUsername + "&receiverUsername=" + receiverUsername;
-
-                            @SuppressLint("StaticFieldLeak") URL url = new URL(apiUrl);
-                            @SuppressLint("StaticFieldLeak") HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-                            conn.setRequestMethod("POST");
-                            conn.setDoOutput(true);
-                            conn.getOutputStream().write(params.getBytes());
-
-                            int responseCode = conn.getResponseCode();
-                            if (responseCode == HttpURLConnection.HTTP_OK) {
-
-                            } else {
-                            }
-
-                            conn.disconnect();
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                        return null;
-                    }
-                }.execute();
+                if (listener != null) {
+                    listener.onSendRequestClick(user);
+                    new SendRequestTask(context, user.getUsername()).execute();
+                }
             }
         });
     }
@@ -88,7 +62,12 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
 
     @Override
     public int getItemCount() {
-        return userList.size();
+        return users.size();
+    }
+
+    public void updateUsers(List<UserModel> newUsers) {
+        this.users = newUsers;
+        notifyDataSetChanged();
     }
 
     public static class UserViewHolder extends RecyclerView.ViewHolder {
@@ -100,6 +79,48 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
             username = itemView.findViewById(R.id.username);
             elo = itemView.findViewById(R.id.elo);
             sendRequestButton = itemView.findViewById(R.id.send_request_button);
+        }
+    }
+
+    private static class SendRequestTask extends AsyncTask<Void, Void, Void> {
+        @SuppressLint("StaticFieldLeak")
+        private Context context;
+        private String senderUsername;
+
+        SendRequestTask(Context context, String senderUsername) {
+            this.context = context;
+            this.senderUsername = senderUsername;
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            try {
+                IpAddress ip = new IpAddress();
+                String apiUrl = "http://" + ip.ipAddress + ":8080/newRequest";
+
+                SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+                String receiverUsername = preferences.getString("userId", null);
+
+                String params = "senderUsername=" + receiverUsername + "&receiverUsername=" + senderUsername;
+
+                URL url = new URL(apiUrl);
+                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                conn.setRequestMethod("POST");
+                conn.setDoOutput(true);
+                conn.getOutputStream().write(params.getBytes());
+
+                int responseCode = conn.getResponseCode();
+                if (responseCode == HttpURLConnection.HTTP_OK) {
+                    // Handle success
+                } else {
+                    // Handle error
+                }
+
+                conn.disconnect();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return null;
         }
     }
 }
