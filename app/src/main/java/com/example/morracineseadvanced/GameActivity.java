@@ -20,7 +20,7 @@ import androidx.viewpager2.widget.ViewPager2;
 public class GameActivity extends AppCompatActivity {
 
     private static final String TAG = "ClientActivity";
-    private static final String SERVER_IP = "192.168.1.100"; // Inserisci l'indirizzo IP del server
+    private static final String SERVER_IP = "192.168.67.224"; // Inserisci l'indirizzo IP del server
     private static final int SERVER_PORT = 12345; // Inserisci la porta del server
 
     private TextView messageTextView;
@@ -66,10 +66,8 @@ public class GameActivity extends AppCompatActivity {
                 String message = "Posizione della foto: " + currentPosition;
                 showToast(message);
 
-                // Disabilita lo scorrimento del ViewPager2
                 viewPager.setUserInputEnabled(false);
 
-                // Fai vibrare il dispositivo
                 Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
                 if (vibrator != null) {
                     vibrator.vibrate(200); // 200 millisecondi
@@ -81,11 +79,9 @@ public class GameActivity extends AppCompatActivity {
         });
 //        messageTextView = findViewById(R.id.messageTextView);
 
-        // Consentire le operazioni di rete sul thread principale (da evitare in produzione)
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
-        // Avvia la connessione al server
 //        connectToServer();
     }
     private void showToast(String message) {

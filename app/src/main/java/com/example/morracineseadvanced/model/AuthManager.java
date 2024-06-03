@@ -1,5 +1,7 @@
 package com.example.morracineseadvanced.model;
 
+import android.util.Log;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
@@ -38,8 +40,8 @@ public class AuthManager {
                     response.append(inputLine);
                 }
                 in.close();
-                boolean test = Boolean.parseBoolean(response.toString());
-
+                String responseString = response.toString();
+                boolean test = Boolean.parseBoolean(responseString);
                 return test;
             } else {
                 return false;
@@ -52,7 +54,7 @@ public class AuthManager {
 
     public boolean register(String username, String password) {
         try {
-            URL url = new URL(serverUrl + "/register");
+            URL url = new URL("http://"+serverUrl + ":8080/register");
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("POST");
             conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");

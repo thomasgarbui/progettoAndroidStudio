@@ -1,6 +1,9 @@
 package com.example.morracineseadvanced;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -12,41 +15,60 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.morracineseadvanced.model.AuthManager;
 import com.example.morracineseadvanced.ui.login.RegisterActivity;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
+
+
 
 public class LoginActivity extends AppCompatActivity {
-
     private AuthManager authManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_login);
 
-        final EditText username = (EditText)findViewById(R.id.username);
-        final EditText password = (EditText)findViewById(R.id.password);
+        authManager = new AuthManager(new IpAddress().ipAddress);
 
-        final TextView register= (TextView)findViewById(R.id.Register);
-        register.setOnClickListener(new View.OnClickListener(){
-            @Override public void onClick(View v1){
-                Intent launchActivity = new Intent(LoginActivity.this, RegisterActivity.class);
-                startActivity(launchActivity);
+        final EditText username = findViewById(R.id.username);
+        final EditText password = findViewById(R.id.password);
+        final Button loginButton = findViewById(R.id.login);
+
+        loginButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Save user ID in SharedPreferences
+
+                new LoginTask(username.getText().toString(), password.getText().toString()).execute();
             }
         });
-
-        final Button login= (Button)findViewById(R.id.login);
-        login.setOnClickListener(new View.OnClickListener(){
-            @Override public void onClick(View v1){
-                boolean result = authManager.login(username.getText().toString(),password.getText().toString());
-                if(result){
-                    Intent launchActivity = new Intent(LoginActivity.this, MainActivity.class);
-                    startActivity(launchActivity);
-                }else{
-                    //Messaggio di errore da qualche parte
-                }
-            }
-        });
-
-
     }
 
+    @SuppressLint("StaticFieldLeak")
+    private class LoginTask extends AsyncTask<Void, Void, Boolean> {
+        private String username, password;
+
+        LoginTask(String username, String password) {
+            this.username = username;
+            this.password = password;
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... voids) {
+            return authManager.login(username, password);
+        }
+
+        @Override
+        protected void onPostExecute(Boolean success) {
+            if (success) {
+
+
+                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                startActivity(intent);
+                finish();
+            } else {
+                // Show error message
+            }
+        }
+    }
 }

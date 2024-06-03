@@ -31,36 +31,58 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView_game_rules" />
 
-    <TextView
-        android:id="@+id/textView_friends"
-        android:layout_width="372dp"
-        android:layout_height="238dp"
-        android:layout_marginTop="12dp"
-        android:text="TextView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView_game_rules" />
-
     <EditText
         android:id="@+id/editTextText_playerName"
         android:layout_width="268dp"
         android:layout_height="42dp"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="12dp"
         android:ems="10"
+        android:hint="Inserire nome giocatore"
         android:inputType="text"
-        android:text="Inserire nome giocatore"
         android:textAlignment="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView_friends" />
+        app:layout_constraintTop_toBottomOf="@+id/textView_game_rules" />
 
     <Button
         android:id="@+id/button_searchPlayer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="12dp"
         android:text="SEARCH"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextText_playerName" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView_friends"
+        android:layout_width="409dp"
+        android:layout_height="386dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/button_backToMain"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button_searchPlayer"
+        app:layout_constraintVertical_bias="0.795" />
+
+    <Button
+        android:id="@+id/button_FriendsList"
+        android:layout_width="161dp"
+        android:layout_height="51dp"
+        android:layout_marginTop="68dp"
+        android:layout_marginEnd="232dp"
+        android:text="FRIENDS LIST"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextText_playerName" />
+
+    <Button
+        android:id="@+id/button_FriendsRequests"
+        android:layout_width="184dp"
+        android:layout_height="52dp"
+        android:layout_marginStart="216dp"
+        android:layout_marginTop="68dp"
+        android:text="FRIENDS REQUESTS"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextText_playerName" />
 </androidx.constraintlayout.widget.ConstraintLayout>
