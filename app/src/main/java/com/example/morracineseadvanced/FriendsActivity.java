@@ -6,7 +6,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -23,7 +22,6 @@ import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
@@ -35,7 +33,8 @@ import java.util.Objects;
 public class FriendsActivity extends AppCompatActivity {
     private static final String TAG = "FriendsActivity";
     private RecyclerView recyclerView;
-    private UserAdapter userAdapter;
+    private UserAdapter userAdapterSearch;
+    private UserAdapter userAdapterFriends;
     private FriendRequestAdapter friendRequestAdapter;
     private List<UserModel> usersList;
     private List<FriendRequestModel> friendRequestsList;
@@ -56,10 +55,28 @@ public class FriendsActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         usersList = new ArrayList<>();
         friendRequestsList = new ArrayList<>();
-        userAdapter = new UserAdapter(this, usersList, user -> {
-            Log.d(TAG, "Send request to: " + user.getUsername());
-            // Implement your send request logic here
-        });
+        userAdapterSearch = new UserAdapter(this, usersList, new UserAdapter.OnUserClickListener() {
+            @Override
+            public void onSendRequestClick(UserModel user) {
+                Log.d(TAG, "Send request to: " + user.getUsername());
+            }
+
+            @Override
+            public void onCreateMatchClick(UserModel user) {
+
+            }
+        }, false);
+        userAdapterFriends = new UserAdapter(this, usersList, new UserAdapter.OnUserClickListener() {
+            @Override
+            public void onSendRequestClick(UserModel user) {
+
+            }
+
+            @Override
+            public void onCreateMatchClick(UserModel user) {
+                Log.d(TAG, "Create match with: " + user.getUsername());
+            }
+        },true);
         friendRequestAdapter = new FriendRequestAdapter(this, friendRequestsList, new FriendRequestAdapter.OnRequestActionListener() {
             @Override
             public void onAccept(FriendRequestModel request) {
@@ -71,7 +88,7 @@ public class FriendsActivity extends AppCompatActivity {
                 handleFriendRequest(request, "rejected");
             }
         });
-        recyclerView.setAdapter(userAdapter);
+        recyclerView.setAdapter(userAdapterSearch);
 
         btn_back.setOnClickListener(v -> {
             Intent intent = new Intent(FriendsActivity.this, MainActivity.class);
@@ -82,8 +99,8 @@ public class FriendsActivity extends AppCompatActivity {
             String username = getUsernameFromSharedPreferences();
             getFriendsList(username, results -> {
                 if (results != null && !results.isEmpty()) {
-                    recyclerView.setAdapter(userAdapter); // Reimposta l'adattatore su userAdapter
-                    userAdapter.updateUsers(results);
+                    recyclerView.setAdapter(userAdapterFriends);
+                    userAdapterFriends.updateUsers(results);
                 } else {
                     Log.d(TAG, "No friends found");
                 }
@@ -107,7 +124,8 @@ public class FriendsActivity extends AppCompatActivity {
             String username = txtSearchFriend.getText().toString();
             searchUsers(username, results -> {
                 if (results != null && !results.isEmpty()) {
-                    userAdapter.updateUsers(results);
+                    recyclerView.setAdapter(userAdapterSearch);
+                    userAdapterSearch.updateUsers(results);
                 } else {
                     Log.d(TAG, "No users found");
                 }
