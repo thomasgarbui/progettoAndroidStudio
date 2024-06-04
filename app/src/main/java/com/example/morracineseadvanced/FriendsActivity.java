@@ -112,7 +112,7 @@ public class FriendsActivity extends AppCompatActivity {
             String username = getUsernameFromSharedPreferences();
             getFriendRequests(username, results -> {
                 if (results != null && !results.isEmpty()) {
-                    recyclerView.setAdapter(friendRequestAdapter); // Imposta l'adattatore su friendRequestAdapter
+                    recyclerView.setAdapter(friendRequestAdapter);
                     friendRequestAdapter.updateRequests(results);
                 } else {
                     Log.d(TAG, "No friend requests found");
@@ -172,15 +172,11 @@ public class FriendsActivity extends AppCompatActivity {
                         JSONArray jsonArray = new JSONArray(response.toString());
                         for (int i = 0; i < jsonArray.length(); i++) {
                             JSONObject jsonObject = jsonArray.getJSONObject(i);
-                            String senderUsername = jsonObject.getString("senderUsername");
-                            String receiverUsername = jsonObject.getString("receiverUsername");
-                            if (!Objects.equals(getUsernameFromSharedPreferences(), senderUsername)) {
-                                UserModel user = new UserModel(senderUsername, null, null);
-                                result.add(user);
-                            } else {
-                                UserModel user = new UserModel(receiverUsername, null, null);
-                                result.add(user);
-                            }
+                            String username = jsonObject.getString("username");
+                            String password = jsonObject.getString("password");
+                            String elo = jsonObject.getString("elo");
+                            UserModel user = new UserModel(username, password, elo);
+                            result.add(user);
                         }
                         return result;
                     } else {
@@ -270,7 +266,7 @@ public class FriendsActivity extends AppCompatActivity {
                 try {
                     IpAddress ip = new IpAddress();
                     String encodedUsername = URLEncoder.encode(params[0], "UTF-8");
-                    URL url = new URL("http://" + ip.ipAddress + ":8080/getRequests?receiverUsername=" + encodedUsername);
+                    URL url = new URL("http://" + ip.ipAddress + ":8080/getRequests?senderUsername=" + encodedUsername);
                     Log.d(TAG, "Request URL: " + url);
 
                     HttpURLConnection conn = (HttpURLConnection) url.openConnection();
