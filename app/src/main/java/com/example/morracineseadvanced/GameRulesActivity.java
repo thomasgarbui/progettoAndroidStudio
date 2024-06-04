@@ -36,6 +36,7 @@ public class GameRulesActivity extends AppCompatActivity {
         setContentView(R.layout.activity_gamerules);
 
         Button btn_play = findViewById(R.id.button_play);
+        Button btn_back = findViewById(R.id.backButton);
 
         interactions = new Interactions();
         viewPagerRules = findViewById(R.id.viewPager_rules);
@@ -63,10 +64,17 @@ public class GameRulesActivity extends AppCompatActivity {
 
         rules();
 
+        btn_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(GameRulesActivity.this, MainActivity.class);
+                startActivity(intent);
+            }
+        });
         btn_play.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(GameRulesActivity.this, GameActivity.class);
+                Intent intent = new Intent(GameRulesActivity.this, PreGameActivity.class);
                 startActivity(intent);
             }
         });

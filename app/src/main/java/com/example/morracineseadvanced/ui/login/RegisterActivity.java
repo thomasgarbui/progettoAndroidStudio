@@ -31,7 +31,7 @@ public class RegisterActivity extends AppCompatActivity {
         authManager = new AuthManager(ip.ipAddress);
 
         final EditText username = (EditText) findViewById(R.id.username);
-        final EditText password = (EditText) findViewById(R.id.password);
+        final EditText password = (EditText) findViewById(R.id.confirmPassword);
         final EditText confirmPassword = (EditText) findViewById(R.id.confirmPassword);
 
         final TextView goBack = (TextView) findViewById(R.id.button_backToLogin);
