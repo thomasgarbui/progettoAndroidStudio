@@ -6,6 +6,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -54,8 +55,8 @@ public class PreGameActivity extends AppCompatActivity {
         btn_newMatch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(PreGameActivity.this, GameActivity.class);
-                startActivity(intent);
+                String playerOneUsername = PreferenceManager.getDefaultSharedPreferences(com.example.morracineseadvanced.PreGameActivity.this).getString("userId", null);
+                newMatch(playerOneUsername);
             }
         });
 
@@ -70,7 +71,6 @@ public class PreGameActivity extends AppCompatActivity {
 
     };
 
-    //METODI NON COMPLETI!!! VEDI onPostExecute dentro ciascun metodo
 
     @SuppressLint("StaticFieldLeak")
     private void newMatch(String playerOneUsername) {
@@ -110,9 +110,11 @@ public class PreGameActivity extends AppCompatActivity {
                 }
             }
 
-            @Override //quello che deve accadere dopo doInBackground
+            @Override
             protected void onPostExecute(Boolean success) {
                 if (success) {
+                    Intent intent = new Intent(PreGameActivity.this, GameActivity.class);
+                    startActivity(intent);
                 } else {
                 }
             }
@@ -167,57 +169,9 @@ public class PreGameActivity extends AppCompatActivity {
             }
         }.execute();
     }
+
     @SuppressLint("StaticFieldLeak")
-    private void joinMatch(String playerUsername,String id) {
-        new AsyncTask<Void, Void, Boolean>() {
-            @Override
-            protected Boolean doInBackground(Void... voids) {
-                try {
-                    IpAddress ip = new IpAddress();
-                    String pUsername = URLEncoder.encode(playerUsername, "UTF-8");
-                    String ID = URLEncoder.encode(id, "UTF-8");
-                    URL url = new URL("http://" + ip.ipAddress + ":8080/joinMatch?playerUsername="+pUsername+ "&id=" + ID);
-                    Log.d(TAG, "Request URL: " + url);
-
-                    HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-                    conn.setRequestMethod("PUT");
-                    conn.setRequestProperty("Content-Type", "application/json");
-
-                    int responseCode = conn.getResponseCode();
-                    Log.d(TAG, "Response Code: " + responseCode);
-
-                    if (responseCode == HttpURLConnection.HTTP_OK) {
-                        BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-                        StringBuilder response = new StringBuilder();
-                        String inputLine;
-                        while ((inputLine = in.readLine()) != null) {
-                            response.append(inputLine);
-                        }
-                        in.close();
-                        Log.d(TAG, "Response: " + response.toString());
-                        return true;
-
-                    } else {
-                        return false;
-                    }
-                } catch (Exception e) {
-                    Log.e(TAG, "Exception: ", e);
-                    return false;
-                }
-            }
-
-            @Override //quello che deve accadere dopo doInBackground
-            protected void onPostExecute(Boolean success) {
-                if (success) {
-                } else {
-                }
-            }
-        }.execute();
-    }
-
-    //mettere paramentri giusti e sistemare da url in giù
-    @SuppressLint("StaticFieldLeak")
-    private void getFriendRequests(String username, PreGameActivity.OnRequestsFetchedListener listener) {
+    private void getMatches(String username, PreGameActivity.OnRequestsFetchedListener listener) {
         new AsyncTask<String, Void, List<MatchModel>>() {
             @Override
             protected List<MatchModel> doInBackground(String... params) {
