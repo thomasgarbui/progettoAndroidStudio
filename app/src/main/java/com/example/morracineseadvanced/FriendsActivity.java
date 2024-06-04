@@ -8,6 +8,7 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -196,6 +197,9 @@ public class FriendsActivity extends AppCompatActivity {
                 if (listener != null) {
                     listener.onUsersFetched(users);
                 }
+                else{
+                    Toast.makeText(getApplicationContext(), "You don't have any friends", Toast.LENGTH_SHORT).show();
+                }
             }
         }.execute(username);
     }
@@ -250,6 +254,9 @@ public class FriendsActivity extends AppCompatActivity {
             protected void onPostExecute(List<UserModel> users) {
                 if (listener != null) {
                     listener.onUsersFetched(users);
+                }
+                else{
+                    Toast.makeText(getApplicationContext(), "No user found", Toast.LENGTH_SHORT).show();
                 }
             }
         }.execute(username);
@@ -308,6 +315,9 @@ public class FriendsActivity extends AppCompatActivity {
                 if (listener != null) {
                     listener.onRequestsFetched(requests);
                 }
+                else{
+                    Toast.makeText(getApplicationContext(), "No friend requests found", Toast.LENGTH_SHORT).show();
+                }
             }
         }.execute(username);
     }
@@ -341,6 +351,7 @@ public class FriendsActivity extends AppCompatActivity {
                         in.close();
                         Log.d(TAG, "Response: " + response.toString());
                         return true;
+
                     } else {
                         return false;
                     }
@@ -359,8 +370,11 @@ public class FriendsActivity extends AppCompatActivity {
                     getFriendRequests(username, results -> {
                         if (results != null && !results.isEmpty()) {
                             friendRequestAdapter.updateRequests(results);
+                            Toast.makeText(getApplicationContext(), "sent!", Toast.LENGTH_SHORT).show();
                         } else {
                             Log.d(TAG, "No friend requests found");
+                            Toast.makeText(getApplicationContext(), "No friend requests found", Toast.LENGTH_SHORT).show();
+
                         }
                     });
                 } else {

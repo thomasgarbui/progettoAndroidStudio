@@ -61,5 +61,13 @@
             android:name=".ui.login.RegisterActivity"
             android:exported="true">
         </activity>
+        <activity
+            android:name=".PreGameActivity"
+            android:exported="true">
+        </activity>
+        <activity
+        android:name=".JoinMatchActivity"
+        android:exported="true">
+    </activity>
     </application>
 </manifest>
