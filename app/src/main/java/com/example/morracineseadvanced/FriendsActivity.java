@@ -369,8 +369,6 @@ public class FriendsActivity extends AppCompatActivity {
                             Toast.makeText(getApplicationContext(), "sent!", Toast.LENGTH_SHORT).show();
                         } else {
                             Log.d(TAG, "No friend requests found");
-                            Toast.makeText(getApplicationContext(), "No friend requests found", Toast.LENGTH_SHORT).show();
-
                         }
                     });
                 } else {

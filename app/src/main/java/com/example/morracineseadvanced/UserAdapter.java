@@ -118,7 +118,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
                 SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
                 String receiverUsername = preferences.getString("userId", null);
 
-                String params = "senderUsername=" + receiverUsername + "&receiverUsername=" + senderUsername;
+                String params = "senderUsername=" + receiverUsername + "&receiverUsername=" + senderUsername+"&status";
 
                 URL url = new URL(apiUrl);
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
