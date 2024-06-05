@@ -25,15 +25,19 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
     private List<UserModel> users;
     private Context context;
     private OnUserClickListener listener;
+    private boolean isFriendList;
 
     public interface OnUserClickListener {
         void onSendRequestClick(UserModel user);
+        void onCreateMatchClick(UserModel user);
+
     }
 
-    public UserAdapter(Context context, List<UserModel> users, OnUserClickListener listener) {
+    public UserAdapter(Context context, List<UserModel> users, OnUserClickListener listener,boolean isFriendList) {
         this.context = context;
         this.users = users;
         this.listener = listener;
+        this.isFriendList = isFriendList;
     }
 
     @NonNull
@@ -48,15 +52,28 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
         UserModel user = users.get(position);
         holder.username.setText(user.getUsername());
         holder.elo.setText("Elo: " + user.getElo());
-        holder.sendRequestButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (listener != null) {
-                    listener.onSendRequestClick(user);
-                    new SendRequestTask(context, user.getUsername()).execute();
+        if (isFriendList) {
+            holder.sendRequestButton.setText("Create Match");
+            holder.sendRequestButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (listener != null) {
+                        listener.onCreateMatchClick(user);
+                    }
                 }
-            }
-        });
+            });
+        } else {
+            holder.sendRequestButton.setText("Send Request");
+            holder.sendRequestButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (listener != null) {
+                        listener.onSendRequestClick(user);
+                        new SendRequestTask(context, user.getUsername()).execute();
+                    }
+                }
+            });
+        }
     }
 
 
@@ -78,7 +95,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
             super(itemView);
             username = itemView.findViewById(R.id.username);
             elo = itemView.findViewById(R.id.elo);
-            sendRequestButton = itemView.findViewById(R.id.send_request_button);
+            sendRequestButton = itemView.findViewById(R.id.button_create_match);
         }
     }
 
@@ -101,7 +118,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
                 SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
                 String receiverUsername = preferences.getString("userId", null);
 
-                String params = "senderUsername=" + receiverUsername + "&receiverUsername=" + senderUsername;
+                String params = "senderUsername=" + receiverUsername + "&receiverUsername=" + senderUsername+"&status";
 
                 URL url = new URL(apiUrl);
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();

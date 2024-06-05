@@ -6,9 +6,9 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -23,7 +23,6 @@ import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
@@ -35,7 +34,8 @@ import java.util.Objects;
 public class FriendsActivity extends AppCompatActivity {
     private static final String TAG = "FriendsActivity";
     private RecyclerView recyclerView;
-    private UserAdapter userAdapter;
+    private UserAdapter userAdapterSearch;
+    private UserAdapter userAdapterFriends;
     private FriendRequestAdapter friendRequestAdapter;
     private List<UserModel> usersList;
     private List<FriendRequestModel> friendRequestsList;
@@ -56,10 +56,28 @@ public class FriendsActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         usersList = new ArrayList<>();
         friendRequestsList = new ArrayList<>();
-        userAdapter = new UserAdapter(this, usersList, user -> {
-            Log.d(TAG, "Send request to: " + user.getUsername());
-            // Implement your send request logic here
-        });
+        userAdapterSearch = new UserAdapter(this, usersList, new UserAdapter.OnUserClickListener() {
+            @Override
+            public void onSendRequestClick(UserModel user) {
+                Log.d(TAG, "Send request to: " + user.getUsername());
+            }
+
+            @Override
+            public void onCreateMatchClick(UserModel user) {
+
+            }
+        }, false);
+        userAdapterFriends = new UserAdapter(this, usersList, new UserAdapter.OnUserClickListener() {
+            @Override
+            public void onSendRequestClick(UserModel user) {
+
+            }
+
+            @Override
+            public void onCreateMatchClick(UserModel user) {
+                Log.d(TAG, "Create match with: " + user.getUsername());
+            }
+        },true);
         friendRequestAdapter = new FriendRequestAdapter(this, friendRequestsList, new FriendRequestAdapter.OnRequestActionListener() {
             @Override
             public void onAccept(FriendRequestModel request) {
@@ -71,7 +89,7 @@ public class FriendsActivity extends AppCompatActivity {
                 handleFriendRequest(request, "rejected");
             }
         });
-        recyclerView.setAdapter(userAdapter);
+        recyclerView.setAdapter(userAdapterSearch);
 
         btn_back.setOnClickListener(v -> {
             Intent intent = new Intent(FriendsActivity.this, MainActivity.class);
@@ -82,8 +100,8 @@ public class FriendsActivity extends AppCompatActivity {
             String username = getUsernameFromSharedPreferences();
             getFriendsList(username, results -> {
                 if (results != null && !results.isEmpty()) {
-                    recyclerView.setAdapter(userAdapter); // Reimposta l'adattatore su userAdapter
-                    userAdapter.updateUsers(results);
+                    recyclerView.setAdapter(userAdapterFriends);
+                    userAdapterFriends.updateUsers(results);
                 } else {
                     Log.d(TAG, "No friends found");
                 }
@@ -94,7 +112,7 @@ public class FriendsActivity extends AppCompatActivity {
             String username = getUsernameFromSharedPreferences();
             getFriendRequests(username, results -> {
                 if (results != null && !results.isEmpty()) {
-                    recyclerView.setAdapter(friendRequestAdapter); // Imposta l'adattatore su friendRequestAdapter
+                    recyclerView.setAdapter(friendRequestAdapter);
                     friendRequestAdapter.updateRequests(results);
                 } else {
                     Log.d(TAG, "No friend requests found");
@@ -107,7 +125,8 @@ public class FriendsActivity extends AppCompatActivity {
             String username = txtSearchFriend.getText().toString();
             searchUsers(username, results -> {
                 if (results != null && !results.isEmpty()) {
-                    userAdapter.updateUsers(results);
+                    recyclerView.setAdapter(userAdapterSearch);
+                    userAdapterSearch.updateUsers(results);
                 } else {
                     Log.d(TAG, "No users found");
                 }
@@ -153,15 +172,11 @@ public class FriendsActivity extends AppCompatActivity {
                         JSONArray jsonArray = new JSONArray(response.toString());
                         for (int i = 0; i < jsonArray.length(); i++) {
                             JSONObject jsonObject = jsonArray.getJSONObject(i);
-                            String senderUsername = jsonObject.getString("senderUsername");
-                            String receiverUsername = jsonObject.getString("receiverUsername");
-                            if (!Objects.equals(getUsernameFromSharedPreferences(), senderUsername)) {
-                                UserModel user = new UserModel(senderUsername, null, null);
-                                result.add(user);
-                            } else {
-                                UserModel user = new UserModel(receiverUsername, null, null);
-                                result.add(user);
-                            }
+                            String username = jsonObject.getString("username");
+                            String password = jsonObject.getString("password");
+                            String elo = jsonObject.getString("elo");
+                            UserModel user = new UserModel(username, password, elo);
+                            result.add(user);
                         }
                         return result;
                     } else {
@@ -177,6 +192,9 @@ public class FriendsActivity extends AppCompatActivity {
             protected void onPostExecute(List<UserModel> users) {
                 if (listener != null) {
                     listener.onUsersFetched(users);
+                }
+                else{
+                    Toast.makeText(getApplicationContext(), "You don't have any friends", Toast.LENGTH_SHORT).show();
                 }
             }
         }.execute(username);
@@ -233,6 +251,9 @@ public class FriendsActivity extends AppCompatActivity {
                 if (listener != null) {
                     listener.onUsersFetched(users);
                 }
+                else{
+                    Toast.makeText(getApplicationContext(), "No user found", Toast.LENGTH_SHORT).show();
+                }
             }
         }.execute(username);
     }
@@ -245,7 +266,7 @@ public class FriendsActivity extends AppCompatActivity {
                 try {
                     IpAddress ip = new IpAddress();
                     String encodedUsername = URLEncoder.encode(params[0], "UTF-8");
-                    URL url = new URL("http://" + ip.ipAddress + ":8080/getRequests?receiverUsername=" + encodedUsername);
+                    URL url = new URL("http://" + ip.ipAddress + ":8080/getRequests?senderUsername=" + encodedUsername);
                     Log.d(TAG, "Request URL: " + url);
 
                     HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -290,6 +311,9 @@ public class FriendsActivity extends AppCompatActivity {
                 if (listener != null) {
                     listener.onRequestsFetched(requests);
                 }
+                else{
+                    Toast.makeText(getApplicationContext(), "No friend requests found", Toast.LENGTH_SHORT).show();
+                }
             }
         }.execute(username);
     }
@@ -323,6 +347,7 @@ public class FriendsActivity extends AppCompatActivity {
                         in.close();
                         Log.d(TAG, "Response: " + response.toString());
                         return true;
+
                     } else {
                         return false;
                     }
@@ -341,6 +366,7 @@ public class FriendsActivity extends AppCompatActivity {
                     getFriendRequests(username, results -> {
                         if (results != null && !results.isEmpty()) {
                             friendRequestAdapter.updateRequests(results);
+                            Toast.makeText(getApplicationContext(), "sent!", Toast.LENGTH_SHORT).show();
                         } else {
                             Log.d(TAG, "No friend requests found");
                         }
