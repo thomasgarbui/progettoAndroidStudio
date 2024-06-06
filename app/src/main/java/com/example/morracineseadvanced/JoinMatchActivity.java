@@ -5,6 +5,7 @@ import static android.content.ContentValues.TAG;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -52,51 +53,53 @@ public class JoinMatchActivity extends AppCompatActivity {
 
     @SuppressLint("StaticFieldLeak")
     private void joinMatch(String playerUsername,String id) {
-        new AsyncTask<Void, Void, Boolean>() {
-            @Override
-            protected Boolean doInBackground(Void... voids) {
-                try {
-                    IpAddress ip = new IpAddress();
-                    String pUsername = URLEncoder.encode(playerUsername, "UTF-8");
-                    String ID = URLEncoder.encode(id, "UTF-8");
-                    URL url = new URL("http://" + ip.ipAddress + ":8080/joinMatch?playerUsername="+pUsername+ "&id=" + ID);
-                    Log.d(TAG, "Request URL: " + url);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.CUPCAKE) {
+            new AsyncTask<Void, Void, Boolean>() {
+                @Override
+                protected Boolean doInBackground(Void... voids) {
+                    try {
+                        IpAddress ip = new IpAddress();
+                        String pUsername = URLEncoder.encode(playerUsername, "UTF-8");
+                        String ID = URLEncoder.encode(id, "UTF-8");
+                        URL url = new URL("http://" + ip.ipAddress + ":8080/joinMatch?playerUsername="+pUsername+ "&id=" + ID);
+                        Log.d(TAG, "Request URL: " + url);
 
-                    HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-                    conn.setRequestMethod("PUT");
-                    conn.setRequestProperty("Content-Type", "application/json");
+                        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                        conn.setRequestMethod("PUT");
+                        conn.setRequestProperty("Content-Type", "application/json");
 
-                    int responseCode = conn.getResponseCode();
-                    Log.d(TAG, "Response Code: " + responseCode);
+                        int responseCode = conn.getResponseCode();
+                        Log.d(TAG, "Response Code: " + responseCode);
 
-                    if (responseCode == HttpURLConnection.HTTP_OK) {
-                        BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-                        StringBuilder response = new StringBuilder();
-                        String inputLine;
-                        while ((inputLine = in.readLine()) != null) {
-                            response.append(inputLine);
+                        if (responseCode == HttpURLConnection.HTTP_OK) {
+                            BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                            StringBuilder response = new StringBuilder();
+                            String inputLine;
+                            while ((inputLine = in.readLine()) != null) {
+                                response.append(inputLine);
+                            }
+                            in.close();
+                            Log.d(TAG, "Response: " + response.toString());
+                            return true;
+
+                        } else {
+                            return false;
                         }
-                        in.close();
-                        Log.d(TAG, "Response: " + response.toString());
-                        return true;
-
-                    } else {
+                    } catch (Exception e) {
+                        Log.e(TAG, "Exception: ", e);
                         return false;
                     }
-                } catch (Exception e) {
-                    Log.e(TAG, "Exception: ", e);
-                    return false;
                 }
-            }
 
-            @Override //quello che deve accadere dopo doInBackground
-            protected void onPostExecute(Boolean success) {
-                if (success) {
-                    Intent intent = new Intent(JoinMatchActivity.this, GameActivity.class);
-                    startActivity(intent);
-                } else {
+                @Override
+                protected void onPostExecute(Boolean success) {
+                    if (success) {
+                        Intent intent = new Intent(JoinMatchActivity.this, GameActivity.class);
+                        startActivity(intent);
+                    } else {
+                    }
                 }
-            }
-        }.execute();
+            }.execute();
+        }
     }
 }

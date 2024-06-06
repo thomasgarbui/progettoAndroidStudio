@@ -118,7 +118,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
                 SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
                 String receiverUsername = preferences.getString("userId", null);
 
-                String params = "senderUsername=" + receiverUsername + "&receiverUsername=" + senderUsername+"&status";
+                String params = "senderUsername=" + receiverUsername + "&receiverUsername=" + senderUsername;
 
                 URL url = new URL(apiUrl);
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -128,9 +128,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
 
                 int responseCode = conn.getResponseCode();
                 if (responseCode == HttpURLConnection.HTTP_OK) {
-                    // Handle success
                 } else {
-                    // Handle error
                 }
 
                 conn.disconnect();

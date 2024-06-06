@@ -66,8 +66,12 @@
             android:exported="true">
         </activity>
         <activity
-        android:name=".JoinMatchActivity"
-        android:exported="true">
-    </activity>
+            android:name=".JoinMatchActivity"
+            android:exported="true">
+        </activity>
+        <activity
+            android:name=".EndGameActivity"
+            android:exported="true">
+        </activity>
     </application>
 </manifest>
